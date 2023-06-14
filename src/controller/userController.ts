@@ -13,6 +13,17 @@ class UserController {
         let resultCheck = await userService.checkUser(req.body);
         res.status(200).json(resultCheck);
     }
+
+    showAllStaff = async (req: Request, res: Response)=>{
+        try{
+            let staffs = await userService.findAllStaff()
+            res.status(200).json(staffs)
+        }catch (err){
+            console.log('lỗi server:',err)
+            res.status(500).json(err)
+        }
+    }
+
 }
 
 export default new UserController();

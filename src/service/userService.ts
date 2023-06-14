@@ -39,6 +39,15 @@ class UserService {
             }
         }
     }
+
+    findAllStaff = async () => {
+        let staffs = await this.userRepository.find({
+            where: {
+                role: "staff",
+            },
+        })
+        return staffs
+    }
 }
 
 export default new UserService();
