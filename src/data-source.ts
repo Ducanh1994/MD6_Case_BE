@@ -9,5 +9,5 @@ export const AppDataSource = new DataSource({
     password: "123",
     database: "test_c122",
     synchronize: true,
-    entities: ["dist/src/enitity/*.js"],
+    entities: ["dist/src/entity/*.js"],
 })
