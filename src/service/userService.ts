@@ -11,6 +11,21 @@ class UserService {
         this.userRepository = AppDataSource.getRepository(User);
     }
 
+    creatUser = async (user) => {
+        console.log('da vao creatUser:')
+        const salt = await bcrypt.genSalt(10)
+        const hashed = await bcrypt.hash(user.password,salt);
+        //creat new user
+        let newUser = new User();
+            newUser.username = user.username;
+            newUser.email = user.email;
+            newUser.password = hashed;
+            newUser.role = 'seller';
+        console.log('day la:',newUser)
+
+        await this.userRepository.save(newUser);
+        return newUser
+    }
     checkUser = async (user) => {
         let userFound = await this.userRepository.findOneBy({username: user.username})
         if (!userFound) {
@@ -38,6 +53,22 @@ class UserService {
                 return 'Password is wrong'
             }
         }
+    }
+    checkUserSingup = async (user) => {
+        const [findUsername, findEmail] = await Promise.all([
+            this.userRepository.findOne({where: {username: user.username}}),
+            this.userRepository.findOne({where: {email: user.email}})
+        ]);
+
+        if (findUsername) {
+            return 'Username already exists';
+        }
+
+        if (findEmail) {
+            return 'Email already exists';
+        }
+
+        return undefined;
     }
 }
 

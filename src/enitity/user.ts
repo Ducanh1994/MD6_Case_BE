@@ -13,15 +13,15 @@ export class User {
     password: string;
     @Column({default:'user'})
     role: string;
-    @Column()
+    @Column({ nullable: true })
     name: string;
-    @Column()
+    @Column({ nullable: true })
     age: number;
-    @Column()
+    @Column({ nullable: true })
     phoneNumber: number;
-    @Column()
+    @Column({ nullable: true })
     address: string;
-    @Column()
+    @Column({ nullable: true })
     salary: number;
     @OneToMany(() => Order,(order) => order.user)
     orders: Order[];
