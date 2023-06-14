@@ -3,7 +3,7 @@ import {Order} from "./order";
 import {Store} from "./store";
 
 @Entity()
-//Some attributes can't be empty and can only exist once. Use Unique and Nullable
+//Some attributes can be empty and can only exist once. Use Unique and Nullable
 export class User {
     @PrimaryGeneratedColumn()
     id: number;
