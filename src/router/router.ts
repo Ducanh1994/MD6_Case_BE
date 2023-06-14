@@ -8,8 +8,8 @@ const router = Router();
 
 router.use('/auth', userRouter);
 // Admin Router is temporary. Please refactor for cleaner code
-router.use('/auth/admin', adminRouter)
+router.use('/auth/admin', adminRouter);
 // Staff Router is temporary. Please refactor for cleaner code
-router.use('/auth/staff', staffRouter)
+router.use('/auth/staff', staffRouter);
 router.use('/products', productRouter);
 export default router;
