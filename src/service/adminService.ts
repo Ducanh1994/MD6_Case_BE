@@ -31,7 +31,7 @@ class AdminService {
         return this.userRepository.save(user);
     }
 
-    // Admin Search Account
+    // Admin Search Account with the search query provided
     searchUser = async (user) => {
         let foundAccount = await this.userRepository.find({
             where:[
