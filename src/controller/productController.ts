@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 import productService from "../service/productService";
 import * as process from "process";
-import {Product} from "../enitity/product";
+import {Product} from "../entity/product";
 
 class ProductController {
     constructor() {
