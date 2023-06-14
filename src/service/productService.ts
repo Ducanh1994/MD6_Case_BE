@@ -1,4 +1,4 @@
-import {Product} from "../enitity/product";
+import {Product} from "../entity/product";
 import {AppDataSource} from "../data-source";
 import {Between, Like} from "typeorm";
 
