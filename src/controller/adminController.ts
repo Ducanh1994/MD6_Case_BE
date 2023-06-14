@@ -12,10 +12,10 @@ class AdminController {
     createAccount = async (req: Request, res: Response) => {
         let userCheck = await adminService.checkUser(req.body);
         if (userCheck.length !== 0) {
-            await res.status(400).json('The username already existed!')
+            await res.status(406).json('The username already existed!');
         } else {
             await adminService.createUser(req.body);
-            await res.status(201).json('Create New User Successfully!');
+            await res.status(201).json('Create new user successfully!');
         }
     }
 }
