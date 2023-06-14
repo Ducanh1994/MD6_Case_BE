@@ -1,6 +1,7 @@
 import {User} from "../entity/user";
 import {AppDataSource} from "../data-source";
 import bcrypt from 'bcrypt'
+import {Like} from 'typeorm'
 
 class AdminService {
     private userRepository;
@@ -26,8 +27,23 @@ class AdminService {
 
     // Admin Create New Account
     createUser = async (user) => {
-        user.password = await bcrypt.hash(user.password,10);
+        user.password = await bcrypt.hash(user.password, 10);
         return this.userRepository.save(user);
+    }
+
+    // Admin Search Account
+    searchUser = async (user) => {
+        let foundAccount = await this.userRepository.find({
+            where:[
+                {
+                    username: Like (`%${user.username}`)
+                },
+                {
+                    name: Like(`%${user.name}`)
+                }
+            ]
+        })
+        return foundAccount
     }
 }
 

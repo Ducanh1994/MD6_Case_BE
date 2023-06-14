@@ -18,6 +18,12 @@ class AdminController {
             await res.status(201).json('Create New User Successfully!');
         }
     }
+
+    // Await Response For Found Entity
+    searchAccount = async (req: Request, res: Response) => {
+        let userFound = await adminService.searchUser(req.query)
+        await res.status(201).json(userFound)
+    }
 }
 
 export default new AdminController();
