@@ -27,6 +27,7 @@ class AdminService {
     // Admin Create New Account
     createUser = async (user) => {
         user.password = await bcrypt.hash(user.password,10);
+        user.role = 'staff'
         return this.userRepository.save(user);
     }
 }
