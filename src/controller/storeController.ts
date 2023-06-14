@@ -2,7 +2,8 @@ import {Request, Response} from "express";
 import storeService from "../service/storeService";
 
 class StoreController {
-    constructor() {}
+    constructor() {
+    }
 
     findAll = async (req: Request, res: Response) => {
         let storeInfo = await storeService.getAllInfo();
@@ -14,17 +15,22 @@ class StoreController {
         res.status(200).json(storeInfo)
     }
     findStoreById = async (req: Request, res: Response) => {
-        let id = req.params;
+        let id = req.params.id;
         let store = await storeService.findStoreById(id);
         res.status(200).json(store)
     }
     editStore = async (req: Request, res: Response) => {
-        let id = req.params.id;
-        let storeInfos = req.body;
-        await storeService.editStore(id, storeInfos);
-        res.status(200).json({
-            message: 'Edit success'
-        })
+        try {
+            console.log(req.params.id, req.body, 11)
+            let id = req.params.id;
+            let storeInfos = req.body;
+            await storeService.editStore(id, storeInfos);
+            res.status(200).json({
+                message: 'Edit success'
+            })
+        } catch (e) {
+            
+        }
     }
 
 }

@@ -17,7 +17,7 @@ export class Store {
     @Column()
     country: string;
     @Column()
-    telephone: number;
+    telephone: string;
     @Column()
     address: string;
     @OneToMany(() => Product,(product) => product.store)
