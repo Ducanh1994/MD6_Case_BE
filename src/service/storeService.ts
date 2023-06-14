@@ -9,7 +9,15 @@ class StoreService {
     }
 
     getAllInfo = async () => {
-        return await this.storeRepository.find();
+        const infos = await this.storeRepository.find({
+            relations: {
+                storeType:true
+            },
+        });
+        return infos;
+    }
+    addInfo = async (infos) => {
+        return await this.storeRepository.save(infos)
     }
 
 }

@@ -8,6 +8,11 @@ class StoreController {
         let storeInfo = await storeService.getAllInfo();
         res.status(200).json(storeInfo)
     }
+    addInfo = async (req: Request, res: Response) => {
+        let infos = req.body
+        let storeInfo = await storeService.addInfo(infos);
+        res.status(200).json(storeInfo)
+    }
 
 }
 
