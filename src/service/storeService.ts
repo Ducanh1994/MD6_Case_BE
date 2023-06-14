@@ -19,6 +19,24 @@ class StoreService {
     addInfo = async (infos) => {
         return await this.storeRepository.save(infos)
     }
+    findStoreById = async (id) => {
+        return await this.storeRepository.findOne({
+            where: {id: id},
+            relations: {storeType: true}
+        })
+    }
+    editStore = async (id, storeInfos) => {
+        return await this.storeRepository
+            .createQueryBuilder()
+            .update(Store)
+            .set({
+                name:storeInfos.name, avatar:storeInfos.avatar, email:storeInfos.email, origin:storeInfos.origin,
+                country:storeInfos.country,telephone:storeInfos.telephone,address:storeInfos.address,
+                storeType:storeInfos.storeType
+            })
+            .where("id = :id", {id: id})
+            .execute()
+    }
 
 }
 
