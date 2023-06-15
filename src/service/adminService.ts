@@ -33,13 +33,14 @@ class AdminService {
 
     // Admin Search Account with the search query provided
     searchUser = async (user) => {
+        console.log(user)
         let foundAccount = await this.userRepository.find({
-            where:[
+            where: [
                 {
-                    username: Like (`%${user.username}`)
+                    username: Like(`${user.username}%`)
                 },
                 {
-                    name: Like(`%${user.name}`)
+                    name: Like(`${user.name}%`)
                 }
             ]
         })
