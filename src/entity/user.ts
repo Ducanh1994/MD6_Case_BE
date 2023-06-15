@@ -7,23 +7,23 @@ import {Store} from "./store";
 export class User {
     @PrimaryGeneratedColumn()
     id: number;
-    @Column({type: "varchar", unique: true})
+    @Column({type:"varchar", unique:true, nullable: false})
     username: string;
-    @Column({type: "varchar", unique: true})
+    @Column({type:"varchar", unique:true, nullable:false})
     email: string;
-    @Column({type: "varchar", default: '123456@Abc'})
+    @Column({type:"varchar", default:'123456@Abc', nullable:false})
     password: string;
-    @Column({type: "varchar", default: 'user'})
+    @Column({type:"varchar", default:'user', nullable: false})
     role: string;
-    @Column({type: "varchar"})
+    @Column({type:"varchar", nullable:false})
     name: string;
-    @Column({type: "varchar"})
+    @Column({type:"varchar", nullable:false})
     age: number;
-    @Column({type: "varchar", nullable: true})
+    @Column({type: "varchar",nullable:true})
     phoneNumber: number;
-    @Column({type: "varchar", nullable: true})
+    @Column({type:"varchar", nullable:true})
     address: string;
-    @Column({type: "varchar", nullable: true})
+    @Column({type:"varchar", nullable: true})
     salary: number;
     @Column({type:"longtext", nullable: true})
     image: string;
