@@ -5,7 +5,7 @@ class AdminController {
     private adminService;
 
     constructor() {
-        this.adminService = adminService
+        this.adminService = adminService;
     }
 
     // Await Update For Creating New Account
@@ -17,6 +17,12 @@ class AdminController {
             await adminService.createUser(req.body);
             await res.status(201).json('Create new user successfully!');
         }
+    }
+
+    // Await Response For Found Entity
+    searchAccount = async (req: Request, res: Response) => {
+        let userFound = await adminService.searchUser(req.query);
+        await res.status(201).json(userFound);
     }
 }
 
