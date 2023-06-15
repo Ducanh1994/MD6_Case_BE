@@ -1,6 +1,6 @@
-import {Store} from "../enitity/store";
+import {Store} from "../entity/store";
 import {AppDataSource} from "../data-source";
-import {StoreType} from "../enitity/storeType";
+import {StoreType} from "../entity/storeType";
 
 class StoreService {
     private storeRepository;
