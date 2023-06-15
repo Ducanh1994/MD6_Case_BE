@@ -1,4 +1,4 @@
-import {User} from "../enitity/user"
+import {User} from "../entity/user"
 import {AppDataSource} from "../data-source";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"

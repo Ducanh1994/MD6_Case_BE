@@ -14,6 +14,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
 app.use('', router)
+
+// Use http://localhost:3001/ with your router definition to debug
 app.listen(3001, () => {
     console.log('Server is running')
 })
