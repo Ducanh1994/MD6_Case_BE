@@ -2,6 +2,7 @@ import {Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} 
 import {User} from "./user";
 import {Product} from "./product";
 import {StoreType} from "./storeType";
+import {JoinColumn} from "typeorm/browser";
 @Entity()
 export class Store {
     @PrimaryGeneratedColumn()
