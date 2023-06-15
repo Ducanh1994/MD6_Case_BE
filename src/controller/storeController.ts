@@ -21,7 +21,6 @@ class StoreController {
     }
     editStore = async (req: Request, res: Response) => {
         try {
-            console.log(req.params.id, req.body, 11)
             let id = req.params.id;
             let storeInfos = req.body;
             await storeService.editStore(id, storeInfos);
