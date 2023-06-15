@@ -8,22 +8,16 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
     @Column({type: "varchar", unique: true})
-    @Column({type:"varchar", unique:true})
     username: string;
     @Column({type: "varchar", unique: true})
-    @Column({type:"varchar", unique:true})
     email: string;
     @Column({type: "varchar", default: '123456@Abc'})
-    @Column({type:"varchar", default:'123456@Abc'})
     password: string;
     @Column({type: "varchar", default: 'user'})
-    @Column({type:"varchar", default:'user'})
     role: string;
     @Column({type: "varchar"})
-    @Column({type:"varchar"})
     name: string;
     @Column({type: "varchar"})
-    @Column({type:"varchar"})
     age: number;
     @Column({type: "varchar", nullable: true})
     phoneNumber: number;
