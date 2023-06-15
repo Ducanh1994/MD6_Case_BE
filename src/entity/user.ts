@@ -25,6 +25,8 @@ export class User {
     address: string;
     @Column({type:"varchar", nullable: true})
     salary: number;
+    @Column({type:"longtext", nullable: true})
+    image: string;
     @OneToMany(() => Order,(order) => order.user)
     orders: Order[];
     @OneToOne(() => Store,(store) => store.user)
