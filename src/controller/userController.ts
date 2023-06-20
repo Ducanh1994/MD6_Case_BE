@@ -9,9 +9,13 @@ class UserController {
     }
 
     login = async (req: Request, res: Response) => {
-        console.log(req.body)
-        let resultCheck = await userService.checkUser(req.body);
-        res.status(200).json(resultCheck);
+        try {
+            console.log(req.body)
+            let resultCheck = await userService.checkUser(req.body);
+            res.status(200).json(resultCheck);
+        } catch (err) {
+            res.status(500).json(err.message)
+        }
     }
 }
 

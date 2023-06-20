@@ -8,6 +8,7 @@ import {staffAuth} from "../middleware/staffAuth";
 export const productRouter = Router();
 
 productRouter.get('/categories/:id', productController.findByCategoryId);
+productRouter.get('/allCategories', productController.findAllCategory);
 productRouter.get('/price', productController.findByPrice)
 productRouter.get('/name', productController.findByNameProduct)
 productRouter.get('/:id', productController.findProductById);

@@ -24,9 +24,14 @@ class ProductController {
     }
 
     findByCategoryId = async (req: Request, res: Response) => {
-        let categoryId = req.params.id;
-        let products = await productService.findbyCategoryId(categoryId);
-        res.status(200).json(products)
+        try {
+            let categoryId = req.params.id;
+            console.log(req.params.id)
+            let products = await productService.findbyCategoryId(categoryId);
+            res.status(200).json(products)
+        } catch (err) {
+            res.status(500).json(err.message)
+        }
     }
 
     findByPrice = async (req: Request, res: Response) => {
@@ -37,6 +42,15 @@ class ProductController {
             res.status(200).json(response)
         } catch (error) {
             res.status(500).json(error.message)
+        }
+    }
+
+    findAllCategory = async (req: Request, res: Response) => {
+        try {
+            let categories = await productService.findAllCategory();
+            res.status(200).json(categories)
+        } catch (err) {
+            res.status(500).json(err.message)
         }
     }
 }

@@ -7,6 +7,8 @@ export class Category {
     id: number;
     @Column({type: 'varchar'})
     name: string;
+    @Column({type:"longtext"})
+    image: string;
     @OneToMany (() => Product, (product) => product.category)
     products: Product[]
 }
