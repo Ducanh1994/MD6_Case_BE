@@ -3,6 +3,7 @@ import SellerService from "../service/sellerService";
 import {ServerClosedEvent} from "typeorm";
 import {sellerRouter} from "../router/sellerRouter";
 import sellerService from "../service/sellerService";
+import adminService from "../service/adminService";
 
 class SellerController {
     private SellerService;
@@ -19,9 +20,25 @@ class SellerController {
         let userID = req['decode'].idUser;
         let images = req.body.images;
         delete req.body.images;
-        req.body.store = userID
-        let item = await SellerService.createProduct(req.body);
-        await SellerService.addImage(item.id, images);
+        let user = await adminService.searchOneUserByID(userID);
+        let storeId = user.store.id;
+        req.body.store = storeId
+        let product = await SellerService.createProduct(req.body);
+        await SellerService.addImage(product.id, images);
+        await res.status(201).json('Product created successfully!');
+    }
+
+
+    editProduct = async (req: Request, res: Response) => {
+        let productId = req.params.id
+        let userID = req['decode'].idUser;
+        let images = req.body.images;
+        let updateProduct = req.body.updateProduct
+        let user = await adminService.searchOneUserByID(userID);
+        let storeId = user.store.id;
+        req.body.store = storeId
+        await SellerService.editProductService(productId, updateProduct);
+        await SellerService.editImagesService(productId, images);
         await res.status(201).json('Product created successfully!');
     }
 

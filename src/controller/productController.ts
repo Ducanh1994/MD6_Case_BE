@@ -10,9 +10,9 @@ class ProductController {
 
     searchProductWithID = async (req: Request, res: Response) => {
         try {
-            let productID = req.query.productID;
-            let productsStatus = await ProductService.searchProductByID(productID);
-            await res.status(202).json(productsStatus);
+            let productID = req.params.id;
+            let product = await ProductService.searchProductByID(productID);
+            await res.status(202).json(product);
         } catch (error) {
             await res.status(500).json(error + ' at searchProductWithID in productController');
         }

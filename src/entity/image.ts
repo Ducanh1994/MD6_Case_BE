@@ -9,6 +9,5 @@ export class Image {
     @Column("longtext")
     url: string;
     @ManyToOne(() => Product,(product) => product.images)
-    @JoinColumn()
     product: Product;
 }

@@ -9,4 +9,6 @@ sellerRouter.use(auth);
 sellerRouter.use(userAuth);
 // sellerRouter.post('/enableShop', SellerController.enableShop);
 sellerRouter.post('/createProduct', SellerController.createProduct);
+sellerRouter.put('/editProduct/:id', SellerController.editProduct);
+
 // sellerRouter.get('/search/:id', SellerController.findStore);
