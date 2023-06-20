@@ -7,7 +7,6 @@ export const auth = (req, res, next) => {
     if (authorization) {
         let accessToken = req.headers.authorization.split(' ')[1];
         if (accessToken) {
-            console.log(accessToken)
             jwt.verify(accessToken, SECRET, (err, payload) => {
                 if (err) {
                     res.status(401).json({

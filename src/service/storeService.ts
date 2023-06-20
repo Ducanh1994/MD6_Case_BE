@@ -50,7 +50,6 @@ class StoreService {
     createStoreDetail = async (store) => {
         try {
             await this.StoreRepository.save(store)
-
             return 'Store created';
         } catch (error) {
             console.log(error + ' at createStoreDetail in storeService');

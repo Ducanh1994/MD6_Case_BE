@@ -10,15 +10,44 @@ class StoreController {
         this.StoreService = StoreService;
     }
 
+    // getStoreInformation = async (req: Request, res: Response) => {
+    //     try {
+    //         let userID = req['decode'].idUser;
+    //         let storeInfo = await this.StoreService.showStoreInformation(userID);
+    //         res.status(202).json(storeInfo);
+    //     } catch (error) {
+    //         res.status(500).json(error + ' at getStoreInformation in storeController');
+    //     }
+    // }
+
+
     getStoreInformation = async (req: Request, res: Response) => {
         try {
             let userID = req['decode'].idUser;
-            let storeInfo = await this.StoreService.showStoreInformation(userID);
-            res.status(202).json(storeInfo);
+            const user = await adminService.searchOneUserByID(userID);
+            const shop = user.store;
+            res.status(202).json(shop);
         } catch (error) {
             res.status(500).json(error + ' at getStoreInformation in storeController');
         }
     }
+
+
+    updateStoreInformation = async (req: Request, res: Response) => {
+        try {
+            let updateShop = req.body
+            let userID = req['decode'].idUser;
+            const user = await adminService.searchOneUserByID(userID);
+            user.store = updateShop;
+            res.status(202).json('Update success');
+        } catch (error) {
+            res.status(500).json(error + ' at getStoreInformation in storeController');
+        }
+    }
+
+
+
+
 
     getStoreType = async (req: Request, res: Response) => {
         try {
