@@ -1,5 +1,7 @@
 import {Request, Response} from "express";
 import StoreService from "../service/storeService";
+import {storeRouter} from "../router/storeRouter";
+import adminService from "../service/adminService";
 
 class StoreController {
     private StoreService;
@@ -20,19 +22,23 @@ class StoreController {
 
     getStoreType = async (req: Request, res: Response) => {
         try {
-            let userID = req['decode'].idUser;
-            let storeInfo = await this.StoreService.showStoreType(userID);
-            res.status(202).json(storeInfo);
+            let storeType = await this.StoreService.showStoreType();
+            res.status(202).json(storeType);
         } catch (error) {
             res.status(500).json(error + ' at getStoreInformation in storeController');
         }
     }
 
-    createStore = async (req: Request, res: Response) => {
+        createStore = async (req: Request, res: Response) => {
+            console.log(1)
         try {
             let userID = req['decode'].idUser;
+            console.log(userID)
+            // let userID = 8
+            let user = await adminService.searchOneUserByID(userID)
             let storeDetail = req.body;
-            let createStatus = await this.StoreService.createStoreDetail(userID, storeDetail);
+            storeDetail.user = user
+            let createStatus = await this.StoreService.createStoreDetail(storeDetail);
             await res.status(201).json(createStatus);
         } catch (error) {
             await res.status(500).json(error + ' at createStore in storeController');

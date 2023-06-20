@@ -12,6 +12,7 @@ class UserService {
     }
 
     createUser = async (user) => {
+        console.log(1)
         const hashed = await bcrypt.hash(user.password, 10);
         //create new user
         let newUser = new User();
@@ -20,7 +21,7 @@ class UserService {
         newUser.email = user.email;
         newUser.age = user.age;
         newUser.password = hashed;
-        newUser.role = "seller";
+        newUser.role = "user";
         console.log(hashed);
 
         await this.userRepository.save(newUser);

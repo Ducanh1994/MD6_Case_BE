@@ -88,6 +88,23 @@ class AdminService {
         }
     }
 
+    searchOneUserByID = async (userID) => {
+        try {
+            let foundAccount = await this.userRepository.findOne({
+                where: {
+                    id: userID
+                }
+            })
+            if (!foundAccount) {
+                return 'There is no account that exists';
+            } else {
+                return foundAccount;
+            }
+        } catch (error) {
+            console.log(error + 'at searchUser in adminService');
+        }
+    }
+
     enablingShop = async (shop) => {
         try {
             let foundAccount = await this.userRepository.find({

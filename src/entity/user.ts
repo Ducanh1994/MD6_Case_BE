@@ -15,9 +15,9 @@ export class User {
     password: string;
     @Column({type: "varchar", default: 'user'})
     role: string;
-    @Column({type: "varchar"})
+    @Column({type: "varchar", default: null})
     name: string;
-    @Column({type: "varchar"})
+    @Column({type: "varchar", default: null})
     age: number;
     @Column({type: "bigint", nullable: true})
     phoneNumber: number;
