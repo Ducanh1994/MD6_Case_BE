@@ -1,7 +1,7 @@
 import {Router} from "express";
 import {userRouter} from "./userRouter";
 import {productRouter} from "./productRouter";
-import  storeRouter from "./storeRouter"
+import {storeRouter} from "./storeRouter"
 import {adminRouter} from "./adminRouter";
 import categoryRouter from "./categoryRouter";
 import {staffRouter} from "./staffRouter";
@@ -9,14 +9,12 @@ import {sellerRouter} from  "./sellerRouter"
 
 const router = Router();
 
-router.use('/auth', userRouter);
-router.use('/auth/admin', adminRouter);
+router.use('/', userRouter);
 // Admin Router is temporary. Please refactor for cleaner code
-router.use('/auth/admin', adminRouter);
+router.use('/admin', adminRouter);
 // Staff Router is temporary. Please refactor for cleaner code
-router.use('/auth/staff', staffRouter);
-router.use('/auth/seller', sellerRouter);
-router.use('/auth/admin', adminRouter);
+router.use('/staff', staffRouter);
+router.use('/seller', sellerRouter);
 router.use('/products', productRouter);
 router.use('/store', storeRouter)
 router.use('/categories', categoryRouter);

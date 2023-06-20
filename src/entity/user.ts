@@ -1,4 +1,4 @@
-import {Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn, JoinColumn} from 'typeorm';
 import {Order} from "./order";
 import {Store} from "./store";
 
@@ -19,7 +19,7 @@ export class User {
     name: string;
     @Column({type: "varchar"})
     age: number;
-    @Column({type: "varchar", nullable: true})
+    @Column({type: "bigint", nullable: true})
     phoneNumber: number;
     @Column({type: "varchar", nullable: true})
     address: string;
@@ -27,8 +27,9 @@ export class User {
     salary: number;
     @Column({type:"longtext", nullable: true})
     image: string;
-    @OneToMany(() => Order,(order) => order.user)
+    @OneToMany(() => Order,(order)  => order.user)
     orders: Order[];
     @OneToOne(() => Store,(store) => store.user)
+    @JoinColumn()
     store: Store;
 }

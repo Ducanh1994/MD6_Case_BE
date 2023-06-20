@@ -5,7 +5,7 @@ import {Store} from "./store";
 export class StoreType {
     @PrimaryGeneratedColumn()
     id: number;
-    @Column({type: 'varchar'})
+    @Column({type: "varchar"})
     name: string;
     @OneToMany (() => Store, (store) => store.storeType)
     store: Store[]

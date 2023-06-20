@@ -1,4 +1,4 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {Order} from "./order";
 import {Product} from "./product";
 
@@ -6,14 +6,16 @@ import {Product} from "./product";
 export class OrderDetail {
     @PrimaryGeneratedColumn()
     id: number;
-    @Column({ default: 0 })
+    @Column({type: "bigint", default: 0})
     price: number;
-    @Column({ default: 0 })
+    @Column({type: "bigint", default: 0})
     quantity: number;
-    @Column({ default: 0 })
+    @Column({type: "bigint", default: 0})
     totalPrice: number;
     @ManyToOne(() => Order,(order) => order.orderDetails)
+    @JoinColumn()
     order: Order;
     @ManyToOne(() => Product,(product) => product.orderDetails)
+    @JoinColumn()
     product: Product;
 }

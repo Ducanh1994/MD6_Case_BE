@@ -3,24 +3,69 @@ import {User} from '../entity/user'
 import bcrypt from "bcrypt";
 
 class StaffService {
-    private userRepository;
+    private UserRepository;
 
     constructor() {
-        this.userRepository = AppDataSource.getRepository(User);
+        this.UserRepository = AppDataSource.getRepository(User);
     }
 
-    staffCheck = async (user) => {
-        let foundStaff = await this.userRepository.find({
-            where: {
-                username: user.username
+    // Finding staff with their ID
+    searchAll = async () => {
+        try {
+            let foundStaff = await this.UserRepository.find({
+                where: {
+                    role: "user" || "staff"
+                }
+            })
+            if (!foundStaff) {
+                return 'There is no staff found';
+            } else {
+                return foundStaff;
             }
-        })
-        return foundStaff;
+        } catch (error) {
+            console.log(error + ' at staffCheck in staffService');
+        }
     }
 
+    searchStaff = async () => {
+        try {
+            let foundStaff = await this.UserRepository.find({
+                where: {
+                    role: "staff"
+                }
+            })
+                return foundStaff;
+        } catch (error) {
+            console.log(error + ' at staffCheck in staffService');
+        }
+    }
+
+    // Finding user with their ID
+    searchUser = async () => {
+        try {
+            let foundStaff = await this.UserRepository.find({
+                where: {
+                    role: "user"
+                }
+            })
+            if (!foundStaff) {
+                return 'There is no staff found';
+            } else {
+                return foundStaff;
+            }
+        } catch (error) {
+            console.log(error + ' at staffCheck in staffService');
+        }
+    }
+
+    // Staff updating their information
     staffUpdate = async (userInfo) => {
-        userInfo.password = await bcrypt.hash(userInfo.password, 10);
-        return await this.userRepository.save(userInfo);
+        try {
+            userInfo.password = await bcrypt.hash(userInfo.password, 10);
+            return await this.UserRepository.save(userInfo);
+        } catch (error) {
+            console.log(error + ' at staffUpdate in staffService');
+        }
     }
 }
 

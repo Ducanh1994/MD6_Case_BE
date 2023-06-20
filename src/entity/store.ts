@@ -1,30 +1,34 @@
-import {Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 import {User} from "./user";
 import {Product} from "./product";
 import {StoreType} from "./storeType";
-import {JoinColumn} from "typeorm/browser";
+
 @Entity()
 export class Store {
     @PrimaryGeneratedColumn()
     id: number;
-    @Column()
+    @Column({type: "varchar", unique: true})
     name: string;
-    @Column("longtext")
+    @Column({type: "longtext", nullable: true})
     avatar: string;
-    @Column()
+    @Column({type: "varchar", unique: true})
     email: string;
-    @Column()
+    @Column({type: "longtext"})
     origin: string;
-    @Column()
+    @Column({type: "varchar"})
     country: string;
-    @Column()
+    @Column({type: "varchar"})
     telephone: string;
-    @Column()
+    @Column({type: "longtext"})
     address: string;
+    @Column({type: "varchar", default: "Inactive"})
+    status: string;
     @OneToMany(() => Product,(product) => product.store)
     products: Product[];
     @OneToOne(() => User,(user) => user.store)
+    @JoinColumn()
     user: User;
     @ManyToOne(() => StoreType,(storeType) => storeType.store)
+    @JoinColumn()
     storeType: StoreType;
 }

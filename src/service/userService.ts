@@ -11,21 +11,22 @@ class UserService {
         this.userRepository = AppDataSource.getRepository(User);
     }
 
-    creatUser = async (user) => {
-        console.log('da vao creatUser:')
-        const salt = await bcrypt.genSalt(10)
-        const hashed = await bcrypt.hash(user.password,salt);
-        //creat new user
+    createUser = async (user) => {
+        const hashed = await bcrypt.hash(user.password, 10);
+        //create new user
         let newUser = new User();
-            newUser.username = user.username;
-            newUser.email = user.email;
-            newUser.password = hashed;
-            newUser.role = 'seller';
-        console.log('day la:',newUser)
+        newUser.username = user.username;
+        newUser.name = user.name;
+        newUser.email = user.email;
+        newUser.age = user.age;
+        newUser.password = hashed;
+        newUser.role = "seller";
+        console.log(hashed);
 
         await this.userRepository.save(newUser);
         return newUser
     }
+
     checkUser = async (user) => {
         let userFound = await this.userRepository.findOneBy({username: user.username})
         if (!userFound) {

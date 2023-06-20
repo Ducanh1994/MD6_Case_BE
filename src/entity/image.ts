@@ -1,4 +1,4 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
 import {Product} from "./product";
 
 
@@ -9,5 +9,6 @@ export class Image {
     @Column("longtext")
     url: string;
     @ManyToOne(() => Product,(product) => product.images)
+    @JoinColumn()
     product: Product;
 }

@@ -1,34 +1,62 @@
 import {Request, Response} from "express";
-import storeService from "../service/storeService";
+import StoreService from "../service/storeService";
 
 class StoreController {
+    private StoreService;
+
     constructor() {
+        this.StoreService = StoreService;
     }
 
-    findAll = async (req: Request, res: Response) => {
-        let storeInfo = await storeService.getAllInfo();
-        res.status(200).json(storeInfo)
+    getStoreInformation = async (req: Request, res: Response) => {
+        try {
+            let userID = req['decode'].idUser;
+            let storeInfo = await this.StoreService.showStoreInformation(userID);
+            res.status(202).json(storeInfo);
+        } catch (error) {
+            res.status(500).json(error + ' at getStoreInformation in storeController');
+        }
     }
-    addInfo = async (req: Request, res: Response) => {
-        let infos = req.body;
-        let storeInfo = await storeService.addInfo(infos);
-        res.status(200).json(storeInfo)
+
+    getStoreType = async (req: Request, res: Response) => {
+        try {
+            let userID = req['decode'].idUser;
+            let storeInfo = await this.StoreService.showStoreType(userID);
+            res.status(202).json(storeInfo);
+        } catch (error) {
+            res.status(500).json(error + ' at getStoreInformation in storeController');
+        }
     }
-    findStoreById = async (req: Request, res: Response) => {
-        let id = req.params.id;
-        let store = await storeService.findStoreById(id);
-        res.status(200).json(store)
+
+    createStore = async (req: Request, res: Response) => {
+        try {
+            let userID = req['decode'].idUser;
+            let storeDetail = req.body;
+            let createStatus = await this.StoreService.createStoreDetail(userID, storeDetail);
+            await res.status(201).json(createStatus);
+        } catch (error) {
+            await res.status(500).json(error + ' at createStore in storeController');
+        }
     }
+
+    searchStoreWithID = async (req: Request, res: Response) => {
+        try {
+            let storeID = req.query.storeID;
+            let storeList = await this.StoreService.searchStoreByID(storeID);
+            await res.status(202).json(storeList);
+        } catch (error) {
+            await res.status(500).json(error + ' at searchStoreWithID in storeController');
+        }
+    }
+
     editStore = async (req: Request, res: Response) => {
         try {
-            let id = req.params.id;
-            let storeInfos = req.body;
-            await storeService.editStore(id, storeInfos);
-            res.status(200).json({
-                message: 'Edit success'
-            })
-        } catch (e) {
-            
+            let userID = req['decode'].idUser;
+            let storeDetail = req.body;
+            let editStatus = await StoreService.editStoreDetail(userID, storeDetail);
+            await res.status(202).json(editStatus);
+        } catch (error) {
+            await res.status(500).json(error + ' at editStore in storeController');
         }
     }
 
