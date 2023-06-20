@@ -24,6 +24,12 @@ class AdminController {
         let userFound = await adminService.searchUser(req.query);
         await res.status(201).json(userFound);
     }
+
+    showAllAccount = async (req: Request, res: Response) => {
+        let userFound = await adminService.showAllAccount();
+        await res.status(201).json(userFound);
+    }
+
 }
 
 export default new AdminController();
