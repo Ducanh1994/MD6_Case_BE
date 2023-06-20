@@ -3,6 +3,8 @@ import bodyParser from "body-parser";
 import router from "./src/router/router";
 import {AppDataSource} from "./src/data-source";
 import cors from 'cors';
+const hostname = 'localhost';
+const port = 3001;
 
 const app = express();
 
@@ -17,5 +19,5 @@ app.use('', router)
 
 // Use http://localhost:3001/ with your router definition to debug
 app.listen(3001, () => {
-    console.log('Server is running')
+    console.log(`Server is running http://${hostname}:${port}/`)
 })

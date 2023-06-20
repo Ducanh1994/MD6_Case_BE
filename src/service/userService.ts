@@ -21,7 +21,6 @@ class UserService {
             newUser.email = user.email;
             newUser.password = hashed;
             newUser.role = 'seller';
-        console.log('day la:',newUser)
 
         await this.userRepository.save(newUser);
         return newUser
