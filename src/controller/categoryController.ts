@@ -9,9 +9,10 @@ class CategoryController{
     }
 
     getCategory = async (req: Request, res: Response) => {
+        console.log(1)
         try {
-            let categoryStatus = await this.categoryService.getCategoryList();
-            await res.status(202).json(categoryStatus);
+            let categoryList = await this.categoryService.getCategoryList();
+            await res.status(202).json(categoryList);
         } catch (error) {
             await res.status(500).json(error + ' at getCategory in categoryController');
         }

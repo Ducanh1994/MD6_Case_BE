@@ -11,6 +11,7 @@ class CategoryService {
     getCategoryList = async () => {
         try {
             let findCategory = await this.CategoryRepository.find();
+            console.log(findCategory)
             if (!findCategory) {
                 return 'There is no category';
             } else {
