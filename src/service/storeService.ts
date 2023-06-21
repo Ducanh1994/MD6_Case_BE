@@ -1,56 +1,138 @@
-import {Store} from "../entity/store";
 import {AppDataSource} from "../data-source";
+import {Store} from "../entity/store";
+import {User} from "../entity/user";
+import bcrypt from "bcrypt";
 import {StoreType} from "../entity/storeType";
 
 class StoreService {
-    private storeRepository;
+    private StoreRepository;
+    private UserRepository;
+    private StoreTypeRepository;
 
     constructor() {
-        this.storeRepository = AppDataSource.getRepository(Store);
+        this.StoreRepository = AppDataSource.getRepository(Store);
+        this.UserRepository = AppDataSource.getRepository(User);
+        this.StoreTypeRepository = AppDataSource.getRepository(StoreType)
     }
 
-    getAllInfo = async () => {
-        const infos = await this.storeRepository.find({
-            relations: {
-                storeType: true
-            },
-        });
-        return infos;
+    showStoreInformation = async (userID) => {
+        try {
+            const storeInfo = await this.StoreRepository.findOne({
+                relations: {
+                    storeType: true
+                }, where: {
+                    userId: userID
+                }
+            });
+            if (!storeInfo) {
+                return 'There is no store found';
+            } else {
+                return storeInfo;
+            }
+        } catch (error) {
+            console.log(error + ' at showStoreInformation in storeService');
+        }
     }
-    addInfo = async (infos) => {
-        return await this.storeRepository.save(infos)
-    }
-    findStoreById = async (id) => {
-        return await this.storeRepository.findOne({
-            where: {id: id},
-            relations: {storeType: true}
-        })
-    }
-    editStore = async (id, storeInfos) => {
-        // console.log("storeInfos", storeInfos)
-        // storeInfos.storeType = AppDataSource.getRepository(StoreType)
-        //     .findOneBy({
-        //         id: storeInfos.storeType.id
-        //     });
-        // return await this.storeRepository.update({id: id}, storeInfos)
 
-        return await this.storeRepository
-            .createQueryBuilder()
-            .update(Store)
-            .set({
-                name: storeInfos.name,
-                avatar: storeInfos.avatar,
-                email: storeInfos.email,
-                origin: storeInfos.origin,
-                country: storeInfos.country,
-                telephone: storeInfos.telephone,
-                address: storeInfos.address,
-                storeType: storeInfos.storeType.id
+    showStoreType = async () => {
+        try {
+            const storeType = await this.StoreTypeRepository.find({});
+            if (!storeType) {
+                return 'There is no store type found';
+            } else {
+                return storeType;
+            }
+        } catch (error) {
+            console.log(error + ' at showStoreType in storeService');
+        }
+    }
+
+    createStoreDetail = async (store) => {
+        try {
+            await this.StoreRepository.save(store)
+            return 'Store created';
+        } catch (error) {
+            console.log(error + ' at createStoreDetail in storeService');
+        }
+    }
+
+    searchStoreByID = async (storeID) => {
+        try {
+            const foundStore = await this.StoreRepository.findOne({
+                relations: {
+                    storeType: true
+                }, where: {
+                    id: storeID
+                }
+            });
+            if (!foundStore) {
+                return 'There is no store found';
+            } else {
+                return foundStore;
+            }
+        } catch (error) {
+            console.log(error + ' at searchStoreByID in storeService');
+        }
+    }
+
+    // Update editStoreDetail cause un-optimized code
+    editStoreDetail = async (userID, storeDetail) => {
+        try {
+            let foundAccount = await this.StoreRepository.find({
+                relations: true,
+                where: {
+                    userId: {
+                        id: userID
+                    }
+                }
             })
-            .where({id: id})
-            .execute()
-    }
 
+            if (!foundAccount) {
+                return 'There is no account that exists';
+            } else {
+                await this.showStoreInformation(userID);
+
+                await this.StoreRepository.save({
+                    id: foundAccount.id,
+                    name: storeDetail.name,
+                    avatar: storeDetail.avatar,
+                    email: storeDetail.email,
+                    origin: storeDetail.origin,
+                    country: storeDetail.country,
+                    telephone: storeDetail.telephone,
+                    address: storeDetail.address,
+                    storeTypeId: storeDetail.storeTypeId
+                });
+
+                storeDetail.password = await bcrypt.hash(storeDetail.password, 10);
+
+                await this.UserRepository.save({
+                    id: userID,
+                    password: storeDetail.password
+                })
+
+                // return await this.storeRepository
+                //     .createQueryBuilder()
+                //     .update(Store)
+                //     .set({
+                //         name: storeDetail.name,
+                //         avatar: storeDetail.avatar,
+                //         email: storeDetail.email,
+                //         origin: storeDetail.origin,
+                //         country: storeDetail.country,
+                //         telephone: storeDetail.telephone,
+                //         address: storeDetail.address,
+                //         storeType: storeDetail.storeType.id
+                //     })
+                //     .where({id: storeID})
+                //     .execute()
+
+                return 'Store updated';
+            }
+        } catch (error) {
+            console.log(error + ' at editStoreDetail in storeService');
+        }
+    }
 }
 
 export default new StoreService();

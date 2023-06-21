@@ -15,11 +15,13 @@ export class User {
     password: string;
     @Column({type: "varchar", default: 'user'})
     role: string;
+    @Column({type: "varchar", default: null})
     @Column({type: "varchar",nullable: true})
     name: string;
+    @Column({type: "varchar", default: null})
     @Column({type: "varchar",nullable: true})
     age: number;
-    @Column({type: "varchar", nullable: true})
+    @Column({type: "bigint", nullable: true})
     phoneNumber: number;
     @Column({type: "varchar", nullable: true})
     address: string;
@@ -27,7 +29,7 @@ export class User {
     salary: number;
     @Column({type:"longtext", nullable: true})
     image: string;
-    @OneToMany(() => Order,(order) => order.user)
+    @OneToMany(() => Order,(order)  => order.user)
     orders: Order[];
     @OneToOne(() => Store,(store) => store.user)
     store: Store;

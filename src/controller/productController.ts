@@ -1,42 +1,51 @@
 import {Request, Response} from "express";
-import productService from "../service/productService";
-import * as process from "process";
-import {Product} from "../entity/product";
+import ProductService from "../service/productService";
 
 class ProductController {
+    private ProductService
+
     constructor() {
+        this.ProductService = ProductService;
     }
 
-    findProductById = async (req: Request, res: Response) => {
-        let id = req.params.id;
-        let product = await productService.findProductById(id);
-        res.status(200).json(product)
-    }
-
-    findByNameProduct = async (req: Request, res: Response) => {
+    searchProductWithID = async (req: Request, res: Response) => {
         try {
-            let search = req.query.search;
-            let response = await productService.findbyNameProduct(search);
-            res.status(200).json(response)
+            let productID = req.params.id;
+            let product = await ProductService.searchProductByID(productID);
+            await res.status(202).json(product);
         } catch (error) {
-            res.status(500).json(error.message)
+            await res.status(500).json(error + ' at searchProductWithID in productController');
         }
     }
 
-    findByCategoryId = async (req: Request, res: Response) => {
-        let categoryId = req.params.id;
-        let products = await productService.findbyCategoryId(categoryId);
-        res.status(200).json(products)
+    searchProductWithName = async (req: Request, res: Response) => {
+        try {
+            let productName = req.query.productName;
+            let productsStatus = await ProductService.searchProductByName(productName);
+            await res.status(202).json(productsStatus);
+        } catch (error) {
+            await res.status(500).json(error + ' at searchProductWithName in productController');
+        }
     }
 
-    findByPrice = async (req: Request, res: Response) => {
+    searchProductWithCategory = async (req: Request, res: Response) => {
+        try {
+            let categoryID = req.query.categoryID;
+            let productsStatus = await ProductService.searchProductByCategoryID(categoryID);
+            await res.status(202).json(productsStatus)
+        } catch (error) {
+            await res.status(500).json(error + ' at searchProductWithCategory in productController');
+        }
+    }
+
+    searchProductWithPrice = async (req: Request, res: Response) => {
         try {
             let min = req.query.min;
             let max = req.query.max;
-            let response = await productService.findByPrice(min, max);
-            res.status(200).json(response)
+            let productsStatus = await ProductService.searchProductByPrice(min, max);
+            await res.status(202).json(productsStatus)
         } catch (error) {
-            res.status(500).json(error.message)
+            await res.status(500).json(error + ' at searchProductWithPrice in productController');
         }
     }
 }

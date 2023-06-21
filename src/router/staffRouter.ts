@@ -7,4 +7,6 @@ export const staffRouter = Router();
 
 staffRouter.use(auth);
 staffRouter.use(staffAuth);
+staffRouter.get('/search/Staff', StaffController.searchStaff);
+staffRouter.get('/search/User', StaffController.staffSearchUser);
 staffRouter.post('/updateAccount/', StaffController.staffUpdateInfo);
