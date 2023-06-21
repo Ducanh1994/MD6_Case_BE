@@ -35,16 +35,23 @@ class SellerController {
 
 
     editProduct = async (req: Request, res: Response) => {
-        let productId = req.params.id
-        let userID = req['decode'].idUser;
-        let images = req.body.images;
-        let updateProduct = req.body.updateProduct
-        let user = await adminService.searchOneUserByID(userID);
-        let storeId = user.store.id;
-        req.body.store = storeId
-        await SellerService.editProductService(productId, updateProduct);
-        await SellerService.editImagesService(productId, images);
-        await res.status(201).json('Product created successfully!');
+        console.log(req.body)
+        try {
+            let productId = req.params.id;
+            console.log(productId)
+            let userID = req["decode"].idUser;
+            let listImages = req.body.images;
+            let updateProduct = req.body.updateProduct;
+            let user = await adminService.searchOneUserByID(userID);
+            let storeId = user.store.id;
+            req.body.store = storeId;
+            await SellerService.editProductService(productId, updateProduct);
+            await SellerService.editImagesService(productId, listImages);
+            return res.status(201).json("Product created successfully!");
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({error: "Internal Server Error"});
+        }
     }
 
     // findStore = async (req: Request, res: Response) => {

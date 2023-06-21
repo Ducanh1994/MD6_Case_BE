@@ -1,17 +1,24 @@
 import {Request, Response} from "express";
 import ProductService from "../service/productService";
+import ImageService from "../service/imageService";
 
 class ProductController {
     private ProductService
+    private ImageService
+
 
     constructor() {
         this.ProductService = ProductService;
+        this.ImageService = ImageService
     }
 
     searchProductWithID = async (req: Request, res: Response) => {
         try {
             let productID = req.params.id;
+            console.log(productID, 11111)
             let product = await ProductService.searchProductByID(productID);
+            let images = await ImageService.getSubImagesByProductId(productID);
+            product.images = images
             await res.status(202).json(product);
         } catch (error) {
             await res.status(500).json(error + ' at searchProductWithID in productController');
