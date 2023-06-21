@@ -9,7 +9,7 @@ import {sellerRouter} from  "./sellerRouter"
 
 const router = Router();
 
-router.use('/user', userRouter);
+router.use('/', userRouter);
 // Admin Router is temporary. Please refactor for cleaner code
 router.use('/admin', adminRouter);
 // Staff Router is temporary. Please refactor for cleaner code

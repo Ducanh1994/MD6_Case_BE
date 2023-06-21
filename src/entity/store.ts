@@ -28,6 +28,5 @@ export class Store {
     @OneToOne(() => User,(user) => user.store)
     user: User;
     @ManyToOne(() => StoreType,(storeType) => storeType.store)
-    @JoinColumn()
     storeType: StoreType;
 }

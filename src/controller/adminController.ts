@@ -1,6 +1,5 @@
 import {Request, Response} from 'express'
 import adminService from "../service/adminService"
-import userService from "../service/userService";
 
 class AdminController {
     private adminService;
@@ -9,7 +8,6 @@ class AdminController {
         this.adminService = adminService;
     }
 
-    // Await Update For Creating New Account
     createAccount = async (req: Request, res: Response) => {
         try {
             let userCheck = await this.adminService.checkUser(req.body);

@@ -1,4 +1,4 @@
-import {Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 import {Order} from "./order";
 import {Store} from "./store";
 
@@ -15,10 +15,8 @@ export class User {
     password: string;
     @Column({type: "varchar", default: 'user'})
     role: string;
-    @Column({type: "varchar", default: null})
     @Column({type: "varchar",nullable: true})
     name: string;
-    @Column({type: "varchar", default: null})
     @Column({type: "varchar",nullable: true})
     age: number;
     @Column({type: "bigint", nullable: true})
@@ -31,6 +29,7 @@ export class User {
     image: string;
     @OneToMany(() => Order,(order)  => order.user)
     orders: Order[];
-    @OneToOne(() => Store,(store) => store.user)
+    @OneToOne(() => Store, (store) => store.user)
+    @JoinColumn()
     store: Store;
 }
