@@ -24,21 +24,30 @@ class StoreController {
     getStoreInformation = async (req: Request, res: Response) => {
         try {
             let userID = req['decode'].idUser;
-            const user = await adminService.searchOneUserByID(userID);
-            const shop = user.store;
-            res.status(202).json(shop);
+            const user = await adminService.searchOneUserByID(userID)
+            const shopId = user.store.id;
+            const shop = await this.StoreService.findOwnStore(shopId)
+            console.log(shop, 111)
+            res.status(200).json(shop);
         } catch (error) {
             res.status(500).json(error + ' at getStoreInformation in storeController');
         }
     }
 
 
+
+
+
+
     updateStoreInformation = async (req: Request, res: Response) => {
+        console.log(1)
         try {
             let updateShop = req.body
             let userID = req['decode'].idUser;
-            const user = await adminService.searchOneUserByID(userID);
-            user.store = updateShop;
+            let user = await adminService.searchOneUserByID(userID);
+            console.log(user)
+            let shopId = user.store.id;
+            await this.StoreService.updateStoreInformationService(shopId, updateShop)
             res.status(202).json('Update success');
         } catch (error) {
             res.status(500).json(error + ' at getStoreInformation in storeController');

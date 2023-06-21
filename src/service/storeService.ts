@@ -49,8 +49,8 @@ class StoreService {
 
     createStoreDetail = async (store) => {
         try {
-            await this.StoreRepository.save(store)
-            return 'Store created';
+           let createdShop = await this.StoreRepository.save(store)
+            return createdShop;
         } catch (error) {
             console.log(error + ' at createStoreDetail in storeService');
         }
@@ -133,6 +133,40 @@ class StoreService {
             console.log(error + ' at editStoreDetail in storeService');
         }
     }
+    findOwnStore = async (storeID) => {
+        try {
+            const foundStore = await this.StoreRepository.findOne({
+                relations: {
+                    storeType: true,
+                    products: true
+                }, where: {
+                    id: storeID
+                }
+            });
+            if (!foundStore) {
+                return 'There is no store found';
+            } else {
+                return foundStore;
+            }
+        } catch (error) {
+            console.log(error + ' at searchStoreByID in storeService');
+        }
+    }
+
+
+    updateStoreInformationService = async (shopId, updateStore) => {
+        try {
+            await this.StoreRepository.update(shopId, updateStore);
+        } catch (error) {
+            console.log(error + ' at searchStoreByID in storeService');
+        }
+    }
+
+
+
+
+
+
 }
 
 export default new StoreService();
