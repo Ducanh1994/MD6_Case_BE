@@ -59,16 +59,13 @@ class StoreController {
     }
 
         createStore = async (req: Request, res: Response) => {
-            console.log(1)
         try {
             let userID = req['decode'].idUser;
-            console.log(userID)
-            // let userID = 8
             let user = await adminService.searchOneUserByID(userID)
             let storeDetail = req.body;
             storeDetail.user = user
-            let createStatus = await this.StoreService.createStoreDetail(storeDetail);
-            await res.status(201).json(createStatus);
+            let createdShop = await this.StoreService.createStoreDetail(storeDetail);
+            await res.status(201).json(createdShop);
         } catch (error) {
             await res.status(500).json(error + ' at createStore in storeController');
         }
