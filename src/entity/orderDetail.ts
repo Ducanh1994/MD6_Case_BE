@@ -16,6 +16,5 @@ export class OrderDetail {
     @JoinColumn()
     order: Order;
     @ManyToOne(() => Product,(product) => product.orderDetails)
-    @JoinColumn()
     product: Product;
 }

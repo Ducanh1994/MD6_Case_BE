@@ -7,7 +7,7 @@ class UserController {
     }
 
     register = async (req: Request, res: Response) => {
-        console.log('req.body:', req.body)
+        console.log(req.body)
         try {
             const check = await userService.checkUserSingup(req.body);
             if (check === "Username already exists") {
@@ -16,8 +16,9 @@ class UserController {
             if (check === "Email already exists") {
                 return res.status(201).json("Email already exists");
             }
-
-            await userService.createUser(req.body);
+            await userService.createUser(req.body).then(()=>{
+                console.log('create account success')
+            });
             return res.status(201).json('Account created successfully');
         } catch (err) {
             console.log("Lỗi server:", err);

@@ -17,7 +17,6 @@ export class Product {
     @Column({type: "longtext", nullable: true})
     image: string;
     @ManyToOne(() => Category,(category) => category.products)
-    @JoinColumn()
     category: Category;
     @OneToMany( () => Image,(image) => image.product)
     images: Image[];

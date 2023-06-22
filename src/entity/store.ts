@@ -26,9 +26,7 @@ export class Store {
     @OneToMany(() => Product,(product) => product.store)
     products: Product[];
     @OneToOne(() => User,(user) => user.store)
-    @JoinColumn()
     user: User;
     @ManyToOne(() => StoreType,(storeType) => storeType.store)
-    @JoinColumn()
     storeType: StoreType;
 }

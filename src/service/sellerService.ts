@@ -66,6 +66,27 @@ class SellerService {
         let item = await this.ProductRepository.save(product);
         return item;
     }
+
+    editProductService = async (productId, updateProduct) => {
+        try {
+            await this.ProductRepository.update({id: productId}, updateProduct);
+        } catch (error) {
+            console.error(error);
+            throw new Error('Error while updating product');
+        }
+    }
+
+    editImagesService = async (productId, images) => {
+        try {
+            await this.ImageRepository.delete({ product: { id: productId } });
+            await this.addImage(productId, images)
+        } catch (error) {
+            console.error(error);
+            throw new Error('Error while updating images for product');
+        }
+    }
+
+
 }
 
 export default new SellerService();

@@ -15,6 +15,5 @@ export class Order {
     @OneToMany(() => OrderDetail,(orderDetail) => orderDetail.order)
     orderDetails: OrderDetail[];
     @ManyToOne(() => User,(user) => user.orders)
-    @JoinColumn()
     user: User;
 }

@@ -2,15 +2,17 @@ import {AppDataSource} from "../data-source";
 import {Store} from "../entity/store";
 import {User} from "../entity/user";
 import bcrypt from "bcrypt";
-
+import {StoreType} from "../entity/storeType";
 
 class StoreService {
     private StoreRepository;
     private UserRepository;
+    private StoreTypeRepository;
 
     constructor() {
         this.StoreRepository = AppDataSource.getRepository(Store);
         this.UserRepository = AppDataSource.getRepository(User);
+        this.StoreTypeRepository = AppDataSource.getRepository(StoreType)
     }
 
     showStoreInformation = async (userID) => {
@@ -32,19 +34,12 @@ class StoreService {
         }
     }
 
-    showStoreType = async (userID) => {
+    showStoreType = async () => {
         try {
-            const storeInfo = await this.StoreRepository.findOne({
-                relations: {
-                    storeType: true
-                }, where: {
-                    userId: userID,
-                }
-            });
-            if (!storeInfo) {
+            const storeType = await this.StoreTypeRepository.find({});
+            if (!storeType) {
                 return 'There is no store type found';
             } else {
-                let storeType = storeInfo.storeType;
                 return storeType;
             }
         } catch (error) {
@@ -52,23 +47,9 @@ class StoreService {
         }
     }
 
-    createStoreDetail = async (userID, store) => {
+    createStoreDetail = async (store) => {
         try {
-            await this.StoreRepository.create({
-                name: store.name,
-                avatar: store.avatar,
-                email: store.email,
-                origin: store.origin,
-                country: store.country,
-                telephone: store.telephone,
-                address: store.address,
-                userId: userID,
-                storeTypeId: store.storeTypeId,
-                status: "Inactive",
-            })
-
-            let storeID = await this.showStoreInformation(userID);
-            await this.UserRepository.update({storeId: storeID});
+            await this.StoreRepository.save(store)
             return 'Store created';
         } catch (error) {
             console.log(error + ' at createStoreDetail in storeService');
