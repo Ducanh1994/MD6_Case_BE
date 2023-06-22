@@ -16,6 +16,7 @@ class StaffController {
             await res.status(201).json('Your account has been updated!');
         }
     }
+
 }
 
 export default new StaffController();

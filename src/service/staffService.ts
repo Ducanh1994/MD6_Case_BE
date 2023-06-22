@@ -22,6 +22,8 @@ class StaffService {
         userInfo.password = await bcrypt.hash(userInfo.password, 10);
         return await this.userRepository.save(userInfo);
     }
+
+
 }
 
 export default new StaffService();

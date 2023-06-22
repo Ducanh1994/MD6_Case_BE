@@ -48,6 +48,24 @@ class AdminService {
         })
         return foundAccount;
     }
+
+    showUser = async () => {
+        try {
+            let allAccount = await this.userRepository.find({
+                relations: true,
+                where: {
+                    role: "staff"
+                }
+            })
+            if (!allAccount) {
+                return 'There is no account that exists';
+            } else {
+                return allAccount;
+            }
+        } catch (error) {
+            console.log(error + ' at showUser in adminService');
+        }
+    }
 }
 
 export default new AdminService();
