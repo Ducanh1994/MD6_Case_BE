@@ -22,6 +22,7 @@ class StoreController {
         try {
             let userID = req['decode'].idUser;
             let storeInfo = await this.StoreService.showStoreType(userID);
+            console.log(storeInfo)
             res.status(202).json(storeInfo);
         } catch (error) {
             res.status(500).json(error + ' at getStoreInformation in storeController');
