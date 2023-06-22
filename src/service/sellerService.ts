@@ -63,8 +63,13 @@ class SellerService {
     }
 
     createProduct = async (product) => {
-        let item = await this.ProductRepository.save(product);
-        return item;
+        try {
+            const createdProduct = await this.ProductRepository.save(product);
+            return createdProduct;
+        } catch (error) {
+            console.log(error);
+            throw new Error("Failed to create product.");
+        }
     }
 
     editProductService = async (productId, updateProduct) => {

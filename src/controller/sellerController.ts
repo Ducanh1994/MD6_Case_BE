@@ -16,16 +16,21 @@ class SellerController {
     //
     // }
 
-    createProduct = async (req: Request, res: Response) => {
-        let userID = req['decode'].idUser;
-        let images = req.body.images;
-        delete req.body.images;
-        let user = await adminService.searchOneUserByID(userID);
-        let storeId = user.store.id;
-        req.body.store = storeId
-        let product = await SellerService.createProduct(req.body);
-        await SellerService.addImage(product.id, images);
-        await res.status(201).json('Product created successfully!');
+    createProduct = async (req: Request, res: Response)=> {
+        try {
+            const userID = req['decode'].idUser;
+            const images = req.body.images;
+            delete req.body.images;
+            const user = await adminService.searchOneUserByID(userID);
+            const storeId = user.store.id;
+            req.body.store = storeId;
+            const product = await SellerService.createProduct(req.body);
+            await SellerService.addImage(product.id, images);
+            res.status(201).json('Product created successfully!');
+        } catch (error) {
+            console.log(error);
+            res.status(500).json('Internal server error');
+        }
     }
 
 
