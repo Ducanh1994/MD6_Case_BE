@@ -1,17 +1,16 @@
 import {Router} from "express";
 import {auth} from "../middleware/auth";
 import {adminAuth} from "../middleware/adminAuth";
-import {userAuth} from "../middleware/userAuth";
 import {staffAuth} from "../middleware/staffAuth";
+import {userAuth} from "../middleware/userAuth";
 import productController from "../controller/productController";
 
 export const productRouter = Router();
 
-productRouter.get('/categories/:id', productController.findByCategoryId);
-productRouter.get('/price', productController.findByPrice);
-productRouter.get('/name', productController.findByNameProduct);
-productRouter.get('/:id', productController.findProductById);
-productRouter.use(auth);
-productRouter.use(adminAuth);
-productRouter.use(staffAuth);
-productRouter.use(userAuth);
+productRouter.get('/getOne/:id', productController.searchProductWithID);
+productRouter.get('/search/productName', productController.searchProductWithName);
+productRouter.get('/search/productCategory', productController.searchProductWithCategory);
+productRouter.get('/search/productPrice', productController.searchProductWithPrice);
+
+
+

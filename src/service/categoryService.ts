@@ -1,17 +1,43 @@
-import {Category} from "../entity/category";
 import {AppDataSource} from "../data-source";
+import {Category} from "../entity/category";
 
 class CategoryService {
-    private categoryRepository;
+    private CategoryRepository;
+
     constructor() {
-        this.categoryRepository = AppDataSource.getRepository(Category);
+        this.CategoryRepository = AppDataSource.getRepository(Category);
     }
 
-    getAllCategory = async () => {
-        let categories = await this.categoryRepository.find()
-        return categories;
+    getCategoryList = async () => {
+        try {
+            let findCategory = await this.CategoryRepository.find();
+            console.log(findCategory)
+            if (!findCategory) {
+                return 'There is no category';
+            } else {
+                return findCategory;
+            }
+        } catch (error) {
+            console.log(error + ' at getCategoryList in categoryService');
+        }
     }
 
+    searchCategoryByID = async (categoryID) => {
+        try {
+            let findCategory = await this.CategoryRepository.find({
+                where: {
+                    id: categoryID
+                }
+            })
+            if (!findCategory) {
+                return 'There is no category found';
+            } else {
+                return findCategory;
+            }
+        } catch (error) {
+            console.log(error + ' at searchCategoryByID in categoryService');
+        }
+    }
 }
 
 export default new CategoryService();

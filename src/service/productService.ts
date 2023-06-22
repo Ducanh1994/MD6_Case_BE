@@ -1,53 +1,86 @@
-import {Product} from "../entity/product";
 import {AppDataSource} from "../data-source";
+import {Product} from "../entity/product";
 import {Between, Like} from "typeorm";
 
 class ProductService {
-    private productRepository;
+    private ProductRepository;
 
     constructor() {
-        this.productRepository = AppDataSource.getRepository(Product)
+        this.ProductRepository = AppDataSource.getRepository(Product);
     }
 
-    findProductById = async (id) => {
-        return await this.productRepository.findOne({
-            where: {id: id},
-            relations: {category: true}
-        })
-    }
-
-    findbyNameProduct = async (search) => {
-        const products = await this.productRepository.find({
-            where: {
-                name: Like(`%${search}%`)
-            }
-        })
-        if (!products) {
-            return "product is not exist"
-        }
-        return products;
-    }
-
-    findbyCategoryId = async (categoryId) => {
-        const products = await this.productRepository.find({
-            where: {
-                category: {id: categoryId},
-            },
-            relations: {
-                category: true
-            },
-        })
-        return products;
-    }
-
-    findByPrice = async (min, max) => {
-        let Min = parseInt(min), Max = parseInt(max);
-        let findProduct = await this.productRepository.find({
+    searchProductByID = async (productID) => {
+        try {
+            const findProduct = await this.ProductRepository.findOne({
+                relations:{
+                    category: true
+                },
                 where: {
-                    price: Between(Min,Max)
+                    id: productID
+                },
+            })
+            if (!findProduct) {
+                return 'There is no product found';
+            } else {
+                return findProduct;
+            }
+        } catch (error) {
+            console.log(error + ' at searchProductByID in productService');
+        }
+    }
+
+    searchProductByName = async (productName) => {
+        try {
+            const findProducts = await this.ProductRepository.find({
+                where: {
+                    name: Like(`%${productName}%`)
                 }
-        })
-        return findProduct
+            })
+            if (!findProducts) {
+                return 'There is no product found';
+            } else {
+                return findProducts;
+            }
+        } catch (error) {
+            console.log(error + ' at searchProductByName in productService');
+        }
+    }
+
+    searchProductByCategoryID = async (categoryID) => {
+        try {
+            const findProducts = await this.ProductRepository.find({
+                relations: true,
+                where: {
+                    category: {
+                        id: categoryID
+                    }
+                }
+            })
+            if (!findProducts) {
+                return 'There is no product found';
+            } else {
+                return findProducts;
+            }
+        } catch (error) {
+            console.log(error + ' at searchProductByCategoryID in productService');
+        }
+    }
+
+    searchProductByPrice = async (min, max) => {
+        try {
+            let Min = parseInt(min), Max = parseInt(max);
+            let findProducts = await this.ProductRepository.find({
+                where: {
+                    price: Between(Min, Max)
+                }
+            })
+            if (!findProducts) {
+                return 'There is no product found';
+            }
+            return findProducts;
+        } catch (error) {
+            console.log(error + ' at searchProductByPrice in productService');
+        }
     }
 }
 

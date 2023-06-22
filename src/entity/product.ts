@@ -1,19 +1,20 @@
-import {Column, Entity,ManyToOne,OneToMany, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import {Category} from './category';
 import {OrderDetail} from "./orderDetail";
 import {Image} from "./image";
 import {Store} from "./store";
+
 @Entity()
 export class Product {
     @PrimaryGeneratedColumn()
     id: number;
-    @Column({type:'varchar'})
+    @Column({type: "varchar"})
     name: string;
-    @Column()
+    @Column({type: "bigint"})
     price: number;
-    @Column()
+    @Column({type: "bigint"})
     quantity: number;
-    @Column({type:"longtext"})
+    @Column({type: "longtext", nullable: true})
     image: string;
     @ManyToOne(() => Category,(category) => category.products)
     category: Category;

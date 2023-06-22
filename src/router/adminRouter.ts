@@ -12,4 +12,5 @@ adminRouter.post('/createAccount/', AdminController.createAccount);
 adminRouter.get('/showAccount/', AdminController.showAllAccount);
 // Search Function need to be configured with name and username query in FE
 adminRouter.get('/searchAccount/', AdminController.searchAccount);
-adminRouter.post('/createAccount', AdminController.createAccount);
+adminRouter.post('/enablingAccount/', AdminController.enablingShopAccount);
+
