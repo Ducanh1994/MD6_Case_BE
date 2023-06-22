@@ -12,7 +12,9 @@ class ProductService {
     searchProductByID = async (productID) => {
         try {
             const findProduct = await this.ProductRepository.findOne({
-                relations: true,
+                relations:{
+                    category: true
+                },
                 where: {
                     id: productID
                 },
