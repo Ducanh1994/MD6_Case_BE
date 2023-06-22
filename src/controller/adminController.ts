@@ -38,6 +38,7 @@ class AdminController {
     searchAccount = async (req: Request, res: Response) => {
         try {
             let userFound = await this.adminService.searchUser(req.query);
+            console.log(userFound,22)
             await res.status(202).json(userFound);
         } catch (error) {
             await res.status(500).json(error + ' at searchAccount in adminController');

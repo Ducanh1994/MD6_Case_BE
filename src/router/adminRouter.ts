@@ -5,8 +5,8 @@ import AdminController from "../controller/adminController";
 
 export const adminRouter = Router()
 
-adminRouter.use(auth)
-adminRouter.use(adminAuth)
+// adminRouter.use(auth)
+// adminRouter.use(adminAuth)
 adminRouter.post('/createAccount/', AdminController.createAccount);
 adminRouter.get('/showAccount/', AdminController.showAllAccount);
 adminRouter.get('/searchAccount/', AdminController.searchAccount);
