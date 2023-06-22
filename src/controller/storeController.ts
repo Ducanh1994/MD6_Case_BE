@@ -41,12 +41,10 @@ class StoreController {
 
 
     updateStoreInformation = async (req: Request, res: Response) => {
-        console.log(1)
         try {
             let updateShop = req.body
             let userID = req['decode'].idUser;
             let user = await adminService.searchOneUserByID(userID);
-            console.log(user)
             let shopId = user.store.id;
             await this.StoreService.updateStoreInformationService(shopId, updateShop)
             res.status(202).json('Update success');

@@ -21,7 +21,7 @@ class UserService {
         newUser.email = user.email;
         newUser.age = user.age;
         newUser.password = hashed;
-        newUser.role = "user";
+        newUser.role = "client";
         console.log(hashed);
 
         await this.userRepository.save(newUser);
@@ -29,10 +29,16 @@ class UserService {
     }
 
     checkUser = async (user) => {
-        let userFound = await this.userRepository.findOneBy({username: user.username})
+        let userFound = await this.userRepository.findOne({
+                where: {username: user.username},
+                relations: {
+                    store: true
+                }
+            })
         if (!userFound) {
             return 'User is not exist'
         } else {
+            console.log(userFound)
             let passWordCompare = await bcrypt.compare(user.password, userFound.password);
             if (passWordCompare) {
                 let payload = {
@@ -44,7 +50,8 @@ class UserService {
                     age: userFound.age,
                     phoneNumber: userFound.phoneNumber,
                     address: userFound.address,
-                    salary: userFound.salary
+                    salary: userFound.salary,
+                    idStore: userFound.store ? userFound.store.id : null
                 }
                 let token = await (jwt.sign(payload, SECRET, {
                     expiresIn: 36000 * 10 * 100

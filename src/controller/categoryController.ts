@@ -9,7 +9,6 @@ class CategoryController{
     }
 
     getCategory = async (req: Request, res: Response) => {
-        console.log(1)
         try {
             let categoryList = await this.categoryService.getCategoryList();
             await res.status(202).json(categoryList);

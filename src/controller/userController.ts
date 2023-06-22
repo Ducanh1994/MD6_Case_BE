@@ -7,7 +7,6 @@ class UserController {
     }
 
     register = async (req: Request, res: Response) => {
-        console.log(req.body)
         try {
             const check = await userService.checkUserSingup(req.body);
             if (check === "Username already exists") {
@@ -27,7 +26,6 @@ class UserController {
     };
 
     login = async (req: Request, res: Response) => {
-        console.log(req.body)
         let resultCheck = await userService.checkUser(req.body);
         res.status(200).json(resultCheck);
     }
