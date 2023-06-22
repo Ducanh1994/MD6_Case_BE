@@ -44,23 +44,6 @@ class AdminService {
     }
 
     // Display all the user's information
-    showUser = async () => {
-        try {
-            let allAccount = await this.userRepository.find({
-                relations: true,
-                where: {
-                    role: "staff"
-                }
-            })
-            if (!allAccount) {
-                return 'There is no account that exists';
-            } else {
-                return allAccount;
-            }
-        } catch (error) {
-            console.log(error + ' at showUser in adminService');
-        }
-    }
 
     // Admin search account with the search query provided
     searchUser = async (user) => {

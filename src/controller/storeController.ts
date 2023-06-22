@@ -22,6 +22,7 @@ class StoreController {
 
 
     getStoreInformation = async (req: Request, res: Response) => {
+        console.log("vao getStoreInformation ")
         try {
             let userID = req['decode'].idUser;
             const user = await adminService.searchOneUserByID(userID)
@@ -100,7 +101,6 @@ class StoreController {
             await res.status(500).json(error + ' at editStore in storeController');
         }
     }
-
 }
 
 export default new StoreController();

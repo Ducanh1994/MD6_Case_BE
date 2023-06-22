@@ -23,15 +23,6 @@ class AdminController {
     }
 
     // Await Update For Display All User's Detail
-    showAllAccount = async (req: Request, res: Response) => {
-        try {
-            let allAccount = await this.adminService.showUser();
-            await res.status(202).json(allAccount);
-        } catch (error) {
-            await res.status(500).json(error + ' at showAllAccount in adminController');
-        }
-    }
-
     // Await Response For Found Entity
     searchAccount = async (req: Request, res: Response) => {
         try {
