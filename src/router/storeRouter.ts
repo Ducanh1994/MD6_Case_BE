@@ -12,5 +12,5 @@ storeRouter.use(auth)
 // storeRouter.use(userAuth)
 storeRouter.get('/storeDetail', storeController.getStoreInformation);
 storeRouter.get('/storeType', storeController.getStoreType);
-storeRouter.put('/edit/', storeController.updateStoreInformation)
+storeRouter.put('/edit', storeController.updateStoreInformation)
 storeRouter.post('/create', storeController.createStore);

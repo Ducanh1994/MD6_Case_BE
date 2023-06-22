@@ -105,7 +105,7 @@ class AdminService {
 
     searchOneUserByID = async (userID) => {
         try {
-            let user = await this.userRepository.findOne({ relations: ['store'], where: { id: userID } });
+            let user = await this.userRepository.findOne({ relations: ['store', 'store.storeType'], where: { id: userID } });
             if (!user) {
                 return 'There is no account that exists';
             } else {
