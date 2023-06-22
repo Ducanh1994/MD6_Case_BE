@@ -51,13 +51,10 @@ class AdminService {
             let foundAccount = await this.userRepository.find({
                 where: [
                     {
-                        username: Like(`${user.username}%`)
+                        username: Like(`${user.username}%`), role: "staff"
                     },
                     {
-                        name: Like(`${user.name}%`)
-                    },
-                    {
-                        role: "staff"
+                        name: Like(`${user.name}%`), role:"staff"
                     }
                 ]
             })
