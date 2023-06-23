@@ -33,7 +33,7 @@ class AdminService {
     }
 
     // Admin create new account
-    createUser = async (user) => {
+    createStaff = async (user) => {
         try {
             user.password = await bcrypt.hash(user.password, 10);
             user.role = 'staff';
@@ -44,23 +44,6 @@ class AdminService {
     }
 
     // Display all the user's information
-    showUser = async () => {
-        try {
-            let allAccount = await this.userRepository.find({
-                relations: true,
-                where: {
-                    role: "staff"
-                }
-            })
-            if (!allAccount) {
-                return 'There is no account that exists';
-            } else {
-                return allAccount;
-            }
-        } catch (error) {
-            console.log(error + ' at showUser in adminService');
-        }
-    }
 
     // Admin search account with the search query provided
     searchUser = async (user) => {
@@ -142,6 +125,24 @@ class AdminService {
             }
         } catch (error) {
             console.log(error + ' at enablingShop in adminService');
+        }
+    }
+
+    showUser = async () => {
+        try {
+            let allAccount = await this.userRepository.find({
+                relations: true,
+                where: {
+                    role: "staff"
+                }
+            })
+            if (!allAccount) {
+                return 'There is no account that exists';
+            } else {
+                return allAccount;
+            }
+        } catch (error) {
+            console.log(error + ' at showUser in adminService');
         }
     }
 }

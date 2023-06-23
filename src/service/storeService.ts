@@ -16,6 +16,7 @@ class StoreService {
     }
 
     showStoreInformation = async (userID) => {
+        //
         try {
             const storeInfo = await this.StoreRepository.findOne({
                 relations: {

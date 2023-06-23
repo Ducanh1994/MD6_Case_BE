@@ -67,6 +67,27 @@ class StaffService {
             console.log(error + ' at staffUpdate in staffService');
         }
     }
+
+    getStaffs = async () => {
+        let staffs = await this.UserRepository.find({
+            where: {
+                role: "staff"
+            },
+        })
+        return staffs
+    }
+
+    checkStaff = async (staff) => {
+        let username = await  this.UserRepository.find({ where: { username: staff.username }});
+        let email = await this.UserRepository.find({ where: { email: staff.email }});
+
+        return (username[0] ? "This username has already existed" : (email[0] ? "This email has already existed" : null));
+    }
+
+    addStaffs = async (staff) => {
+        await this.UserRepository.save(staff)
+    }
+
 }
 
 export default new StaffService();
