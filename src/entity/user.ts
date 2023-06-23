@@ -19,8 +19,8 @@ export class User {
     name: string;
     @Column({type: "varchar",nullable: true})
     age: number;
-    @Column({type: "bigint", nullable: true})
-    phoneNumber: number;
+    @Column({type: "varchar", nullable: true})
+    phoneNumber: string;
     @Column({type: "varchar", nullable: true})
     address: string;
     @Column({type: "varchar", nullable: true})

@@ -42,7 +42,7 @@ class UserService {
             let passWordCompare = await bcrypt.compare(user.password, userFound.password);
             if (passWordCompare) {
                 let payload = {
-                    idUser: userFound.id,
+                    id: userFound.id,
                     username: userFound.username,
                     email: userFound.email,
                     role: userFound.role,
@@ -51,7 +51,8 @@ class UserService {
                     phoneNumber: userFound.phoneNumber,
                     address: userFound.address,
                     salary: userFound.salary,
-                    idStore: userFound.store ? userFound.store.id : null
+                    idStore: userFound.store ? userFound.store.id : null,
+                    image: userFound.image
                 }
                 let token = await (jwt.sign(payload, SECRET, {
                     expiresIn: 36000 * 10 * 100
@@ -88,6 +89,18 @@ class UserService {
 
         return undefined;
     }
+
+    updateAccountService = async (updateUser) => {
+        try {
+            await this.userRepository.save(updateUser);
+        } catch (error) {
+            console.log(error + ' at staffUpdate in staffService');
+        }
+    }
+
+
+
+
 }
 
 export default new UserService();

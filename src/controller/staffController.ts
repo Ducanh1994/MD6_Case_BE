@@ -42,19 +42,19 @@ class StaffController {
     }
 
     // Await to update staff's information
-    staffUpdateInfo = async (req: Request, res: Response) => {
-        try {
-            let userID = req['decode'].idUser;
-            if (await this.StaffService.searchStaffByID(userID).length !== 0) {
-                await this.StaffService.staffUpdate(req.body);
-                res.status(202).json('Staff info successfully updated!');
-            } else {
-                res.status(202).json('Staff doesnt exists');
-            }
-        } catch (error) {
-            res.status(500).json(error + ' at staffUpdateInfo in staffController');
-        }
-    }
+    // staffUpdateInfo = async (req: Request, res: Response) => {
+    //     try {
+    //         let userID = req['decode'].idUser;
+    //         if (await this.StaffService.searchStaffByID(userID).length !== 0) {
+    //             await this.StaffService.staffUpdate(req.body);
+    //             res.status(202).json('Staff info successfully updated!');
+    //         } else {
+    //             res.status(202).json('Staff doesnt exists');
+    //         }
+    //     } catch (error) {
+    //         res.status(500).json(error + ' at staffUpdateInfo in staffController');
+    //     }
+    // }
 }
 
 export default new StaffController();

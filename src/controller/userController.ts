@@ -1,5 +1,6 @@
 import {Request, Response} from "express";
 import userService from "../service/userService";
+import adminService from "../service/adminService";
 
 class UserController {
 
@@ -40,6 +41,26 @@ class UserController {
             res.status(500).json(error)
         }
     }
+
+
+
+    updateAccount = async (req: Request, res: Response) => {
+        try {
+            let userID = req['decode'].id;
+            const updateUser = req.body
+            const findUser = await adminService.searchOneUserByID(userID);
+            updateUser.store = findUser.store;
+            updateUser.password = findUser.password;
+            console.log(updateUser)
+            await userService.updateAccountService(updateUser);
+            return res.status(201).json("Update account success");
+        } catch (error) {
+            res.status(500).json(error + ' at updateAccount in userController');
+        }
+    }
+
+
+
 }
 
 export default new UserController();
