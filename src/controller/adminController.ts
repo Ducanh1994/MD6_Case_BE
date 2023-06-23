@@ -75,7 +75,6 @@ class AdminController {
     }
 
     addStaff = async (req: Request, res: Response) => {
-        console.log('da vao add staff')
         let staff = req.body
         try {
             let message = await this.staffService.checkStaff(staff);
@@ -92,7 +91,6 @@ class AdminController {
                 })
             }
         } catch (error) {
-            console.error(error);
             res.status(500).json({
                 error: error,
                 success: false,
