@@ -9,6 +9,17 @@ class ProductService {
         this.ProductRepository = AppDataSource.getRepository(Product);
     }
 
+    getAllProduct = async () => {
+        try {
+            return await this.ProductRepository.find({
+                relations: {
+                    category:true
+                }
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
     searchProductByID = async (productID) => {
         try {
             const findProduct = await this.ProductRepository.findOne({
@@ -29,21 +40,15 @@ class ProductService {
         }
     }
 
-    searchProductByName = async (productName) => {
-        try {
-            const findProducts = await this.ProductRepository.find({
+    searchProductByName = async (keyword) => {
+            return await this.ProductRepository.find({
+                relations: {
+                    category: true
+                },
                 where: {
-                    name: Like(`%${productName}%`)
+                    name: Like(`${keyword}%`)
                 }
             })
-            if (!findProducts) {
-                return 'There is no product found';
-            } else {
-                return findProducts;
-            }
-        } catch (error) {
-            console.log(error + ' at searchProductByName in productService');
-        }
     }
 
     searchProductByCategoryID = async (categoryID) => {

@@ -11,11 +11,18 @@ class ProductController {
         this.ProductService = ProductService;
         this.ImageService = ImageService
     }
+    getAllProduct = async (req:Request,res:Response) => {
+        try {
+            let products = await ProductService.getAllProduct()
+            await res.status(201).json(products)
+        }catch (error){
+            console.log(error)
+        }
+    }
 
     searchProductWithID = async (req: Request, res: Response) => {
         try {
             let productID = req.params.id;
-            console.log(productID, 11111)
             let product = await ProductService.searchProductByID(productID);
             let images = await ImageService.getSubImagesByProductId(productID);
             product.images = images
@@ -25,11 +32,10 @@ class ProductController {
         }
     }
 
-    searchProductWithName = async (req: Request, res: Response) => {
+    searchProductByName = async (req: Request, res: Response) => {
         try {
-            let productName = req.query.productName;
-            let productsStatus = await ProductService.searchProductByName(productName);
-            await res.status(202).json(productsStatus);
+            let products = await ProductService.searchProductByName(req.query.name);
+            await res.status(202).json(products);
         } catch (error) {
             await res.status(500).json(error + ' at searchProductWithName in productController');
         }
