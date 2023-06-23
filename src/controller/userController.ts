@@ -51,7 +51,6 @@ class UserController {
             const findUser = await adminService.searchOneUserByID(userID);
             updateUser.store = findUser.store;
             updateUser.password = findUser.password;
-            console.log(updateUser)
             await userService.updateAccountService(updateUser);
             return res.status(201).json("Update account success");
         } catch (error) {

@@ -35,7 +35,6 @@ class SellerController {
 
 
     editProduct = async (req: Request, res: Response) => {
-        console.log(req.body)
         try {
             let productId = req.params.id;
             console.log(productId)
