@@ -23,7 +23,7 @@ class StoreController {
 
     getStoreInformation = async (req: Request, res: Response) => {
         try {
-            let userID = req['decode'].idUser;
+            let userID = req['decode'].id;
             const user = await adminService.searchOneUserByID(userID)
             const shopId = user.store.id;
             const shop = await this.StoreService.findOwnStore(shopId)
@@ -42,7 +42,7 @@ class StoreController {
     updateStoreInformation = async (req: Request, res: Response) => {
         try {
             let updateShop = req.body
-            let userID = req['decode'].idUser;
+            let userID = req['decode'].id;
             let user = await adminService.searchOneUserByID(userID);
             let shopId = user.store.id;
             await this.StoreService.updateStoreInformationService(shopId, updateShop)
@@ -67,7 +67,7 @@ class StoreController {
 
         createStore = async (req: Request, res: Response) => {
         try {
-            let userID = req['decode'].idUser;
+            let userID = req['decode'].id;
             let user = await adminService.searchOneUserByID(userID)
             let storeDetail = req.body;
             storeDetail.user = user
@@ -90,7 +90,7 @@ class StoreController {
 
     editStore = async (req: Request, res: Response) => {
         try {
-            let userID = req['decode'].idUser;
+            let userID = req['decode'].id;
             let storeDetail = req.body;
             let editStatus = await StoreService.editStoreDetail(userID, storeDetail);
             await res.status(202).json(editStatus);

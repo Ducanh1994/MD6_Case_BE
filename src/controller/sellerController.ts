@@ -18,7 +18,7 @@ class SellerController {
 
     createProduct = async (req: Request, res: Response)=> {
         try {
-            const userID = req['decode'].idUser;
+            const userID = req['decode'].id;
             const images = req.body.images;
             delete req.body.images;
             const user = await adminService.searchOneUserByID(userID);
@@ -39,7 +39,7 @@ class SellerController {
         try {
             let productId = req.params.id;
             console.log(productId)
-            let userID = req["decode"].idUser;
+            let userID = req["decode"].id;
             let listImages = req.body.images;
             let updateProduct = req.body.updateProduct;
             let user = await adminService.searchOneUserByID(userID);
