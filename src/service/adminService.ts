@@ -33,7 +33,7 @@ class AdminService {
     }
 
     // Admin create new account
-    createUser = async (user) => {
+    createStaff = async (user) => {
         try {
             user.password = await bcrypt.hash(user.password, 10);
             user.role = 'staff';
