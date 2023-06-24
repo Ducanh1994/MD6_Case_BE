@@ -88,6 +88,16 @@ class StaffService {
         await this.UserRepository.save(staff)
     }
 
+    paginationStaff =  async (page,page_size) => {
+         let start = (page -1) * page_size;
+         let end = start + parseInt(page_size)
+        let staffs =  await this.getStaffs()
+        let paginationStaff = staffs.slice(start,end)
+        return {
+             total: staffs.length,
+            paginationStaff: paginationStaff
+        }
+    }
 }
 
 export default new StaffService();

@@ -75,7 +75,6 @@ class AdminController {
     }
 
     addStaff = async (req: Request, res: Response) => {
-        console.log('da vao add staff')
         let staff = req.body
         try {
             let message = await this.staffService.checkStaff(staff);
@@ -101,6 +100,37 @@ class AdminController {
         }
     }
 
+    PaginationStaff = async (req: Request, res: Response) => {
+        console.log("paginationStaff",req.query)
+        try {
+            let page = req.query.page
+            let page_size = req.query.page_size
+            if(page){
+                let data = await this.staffService.paginationStaff(page,page_size)
+                res.status(200).json({
+                    message: "oke",
+                    success: true,
+                    data: data
+                })
+            }else {
+                let data = await this.staffService.getStaffs();
+                res.status(200).json({
+                    message: "oke",
+                    success: true,
+                    data: data
+                })
+            }
+
+        } catch (error) {
+            res.status(500).json(
+                {
+                    message: "error at PaginationStaff",
+                    success: false,
+                    error: error
+                }
+            )
+        }
+    }
 
 }
 
