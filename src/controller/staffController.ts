@@ -55,9 +55,6 @@ class StaffController {
             res.status(500).json(error + ' at staffUpdateInfo in staffController');
         }
     }
-
-
-
 }
 
 export default new StaffController();

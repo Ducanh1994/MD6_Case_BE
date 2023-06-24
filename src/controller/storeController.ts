@@ -1,6 +1,5 @@
 import {Request, Response} from "express";
 import StoreService from "../service/storeService";
-import {storeRouter} from "../router/storeRouter";
 import adminService from "../service/adminService";
 
 class StoreController {
@@ -10,25 +9,13 @@ class StoreController {
         this.StoreService = StoreService;
     }
 
-    // getStoreInformation = async (req: Request, res: Response) => {
-    //     try {
-    //         let userID = req['decode'].idUser;
-    //         let storeInfo = await this.StoreService.showStoreInformation(userID);
-    //         res.status(202).json(storeInfo);
-    //     } catch (error) {
-    //         res.status(500).json(error + ' at getStoreInformation in storeController');
-    //     }
-    // }
-
-
     getStoreInformation = async (req: Request, res: Response) => {
         console.log("vao getStoreInformation ")
         try {
-            let userID = req['decode'].idUser;
+            let userID = req['decode'].id;
             const user = await adminService.searchOneUserByID(userID)
             const shopId = user.store.id;
             const shop = await this.StoreService.findOwnStore(shopId)
-            console.log(shop, 111)
             res.status(200).json(shop);
         } catch (error) {
             res.status(500).json(error + ' at getStoreInformation in storeController');
@@ -43,7 +30,7 @@ class StoreController {
     updateStoreInformation = async (req: Request, res: Response) => {
         try {
             let updateShop = req.body
-            let userID = req['decode'].idUser;
+            let userID = req['decode'].id;
             let user = await adminService.searchOneUserByID(userID);
             let shopId = user.store.id;
             await this.StoreService.updateStoreInformationService(shopId, updateShop)
@@ -68,7 +55,7 @@ class StoreController {
 
         createStore = async (req: Request, res: Response) => {
         try {
-            let userID = req['decode'].idUser;
+            let userID = req['decode'].id;
             let user = await adminService.searchOneUserByID(userID)
             let storeDetail = req.body;
             storeDetail.user = user
@@ -91,7 +78,7 @@ class StoreController {
 
     editStore = async (req: Request, res: Response) => {
         try {
-            let userID = req['decode'].idUser;
+            let userID = req['decode'].id;
             let storeDetail = req.body;
             let editStatus = await StoreService.editStoreDetail(userID, storeDetail);
             await res.status(202).json(editStatus);
