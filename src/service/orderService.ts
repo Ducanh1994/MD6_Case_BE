@@ -26,6 +26,20 @@ class orderService {
         }
     }
 
+    updateOrderTotalMoney = async (orderId, totalMoney) =>{
+        try{
+            await this.OrderRepository.update({id: orderId}, {totalMoney: totalMoney})
+        }catch(error){
+            console.log(error + 'at update total money of order service')
+        }
+    }
+
+
+
+
+
+
+
 
 }
 
