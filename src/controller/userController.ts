@@ -1,6 +1,7 @@
 import {Request, Response} from "express";
 import userService from "../service/userService";
 import adminService from "../service/adminService";
+import orderService from "../service/orderService";
 
 class UserController {
 
@@ -19,6 +20,7 @@ class UserController {
             await userService.createUser(req.body).then(()=>{
                 console.log('create account success')
             });
+            await orderService.createNewOrder(req.body);
             return res.status(201).json('Account created successfully');
         } catch (err) {
             console.log("Lỗi server:", err);

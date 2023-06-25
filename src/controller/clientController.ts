@@ -1,0 +1,22 @@
+import {Request, Response} from 'express';
+import orderService from "../service/orderService";
+import orderDetailService from "../service/orderDetailService";
+
+
+
+class ClientController {
+    constructor() {
+    }
+
+    buyProduct = async (req: Request, res: Response) => {
+        let userId = req['decode'].idUser;
+        let order = await orderService.findOrderByUserId(userId);
+        let orderId = order.id;
+        let product = req.body;
+        await orderDetailService.addOrderDetail(orderId, product);
+        let orderDetails = await orderDetailService.findOrderDetails(orderId)
+        res.status(200).json(orderDetails)
+    }
+}
+
+export default new ClientController();

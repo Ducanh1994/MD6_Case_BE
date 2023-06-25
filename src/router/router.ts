@@ -7,6 +7,7 @@ import categoryRouter from "./categoryRouter";
 import {staffRouter} from "./staffRouter";
 import {sellerRouter} from  "./sellerRouter"
 import {loggedInRouter} from "./logeddInRouter";
+import {clientRouter} from "./clientRouter";
 
 const router = Router();
 
@@ -18,4 +19,5 @@ router.use('/products', productRouter);
 router.use('/store', storeRouter)
 router.use('/categories', categoryRouter);
 router.use('/account', loggedInRouter)
+router.use('/client',clientRouter)
 export default router;
