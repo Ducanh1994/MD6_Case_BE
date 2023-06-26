@@ -87,6 +87,28 @@ class ProductService {
             console.log(error + ' at searchProductByPrice in productService');
         }
     }
+
+
+    updateProductQuantityService = async (productId, quantity) => {
+        try {
+            await this.ProductRepository.update({id:productId}, {quantity: quantity})
+        } catch (error) {
+            console.log(error + 'at update product quantity');
+        }
+    }
+
+    getOneProductById = async (productId) => {
+        try {
+        let product = await this.ProductRepository.findOne({
+                where: {
+                    id: productId
+                }
+            })
+            return product;
+        } catch (error) {
+            console.log(error + 'at find one product by id');
+        }
+    }
 }
 
 export default new ProductService();
