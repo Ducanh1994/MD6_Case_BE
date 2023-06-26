@@ -1,12 +1,15 @@
 import {Request, Response} from "express";
 import StoreService from "../service/storeService";
 import adminService from "../service/adminService";
+import ProductService from "../service/productService";
 
 class StoreController {
     private StoreService;
+    private ProductService
 
     constructor() {
         this.StoreService = StoreService;
+        this.ProductService = ProductService;
     }
 
     getStoreInformation = async (req: Request, res: Response) => {
@@ -84,6 +87,30 @@ class StoreController {
             await res.status(202).json(editStatus);
         } catch (error) {
             await res.status(500).json(error + ' at editStore in storeController');
+        }
+    }
+
+    shopProduct = async (req:Request,res:Response) => {
+        let page = req.query.page;
+        let page_size = req.query.page_size
+        let idShop = req.query.idStore;
+        try {
+            if(page && page_size && idShop){
+                let data = await this.ProductService.searchProductByIdShop(page,page_size,idShop);
+                res.status(200).json({
+                    message: "oke",
+                    success: true,
+                    data: data
+                })
+            }
+
+
+        } catch (error) {
+            res.status(500).json({
+                success :false,
+                error : error,
+                message: "error at show shopProduct"
+            })
         }
     }
 }

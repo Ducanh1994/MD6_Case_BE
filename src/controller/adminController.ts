@@ -100,7 +100,6 @@ class AdminController {
     }
 
     PaginationStaff = async (req: Request, res: Response) => {
-        console.log("paginationStaff",req.query)
         try {
             let page = req.query.page
             let page_size = req.query.page_size
