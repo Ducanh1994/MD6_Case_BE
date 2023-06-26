@@ -6,11 +6,11 @@ import {Product} from "./product";
 export class OrderDetail {
     @PrimaryGeneratedColumn()
     id: number;
-    @Column({type: "bigint", default: 0})
+    @Column()
     price: number;
-    @Column({type: "bigint", default: 0})
+    @Column()
     quantity: number;
-    @Column({type: "bigint", default: 0})
+    @Column()
     totalPrice: number;
     @ManyToOne(() => Order,(order) => order.orderDetails)
     @JoinColumn()

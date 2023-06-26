@@ -9,7 +9,7 @@ class ClientController {
     }
 
     buyProduct = async (req: Request, res: Response) => {
-        let userId = req['decode'].idUser;
+        let userId = req['decode'].id;
         let order = await orderService.findOrderByUserId(userId);
         let orderId = order.id;
         let product = req.body;

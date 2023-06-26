@@ -52,11 +52,10 @@ class OrderDetailService {
                     id: orderId
                 },
                 product: {
-                    id: product.productId
+                    id: product.id
                 }
             },
         });
-
 
         if (existOrderDetails[0]) {
             await this.orderDetailRepository
@@ -67,9 +66,9 @@ class OrderDetailService {
                     quantity: existOrderDetails[0].quantity + product.quantity,
                     totalPrice: product.price * (existOrderDetails[0].quantity + product.quantity),
                     order: orderId,
-                    product: product.productId
+                    product: product.id
                 })
-                .where({order: orderId, product: product.productId})
+                .where({order: orderId, product: product.id})
                 .execute()
         } else {
             let newOrderDetail = {
@@ -77,7 +76,7 @@ class OrderDetailService {
                 quantity: product.quantity,
                 totalPrice: product.price * product.quantity,
                 order: orderId,
-                product: product.productId
+                product: product.id
             }
             await this.orderDetailRepository.save(newOrderDetail);
         }

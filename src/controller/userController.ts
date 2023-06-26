@@ -17,10 +17,10 @@ class UserController {
             if (check === "Email already exists") {
                 return res.status(201).json("Email already exists");
             }
-            await userService.createUser(req.body).then(()=>{
+            await userService.createUser(req.body).then((user)=>{
                 console.log('create account success')
+                orderService.createNewOrder(user);
             });
-            await orderService.createNewOrder(req.body);
             return res.status(201).json('Account created successfully');
         } catch (err) {
             console.log("Lỗi server:", err);
