@@ -13,7 +13,6 @@ class UserService {
 
     createUser = async (user) => {
         const hashed = await bcrypt.hash(user.password, 10);
-        //create new user
         let newUser = new User();
         newUser.username = user.username;
         newUser.name = user.name;
@@ -21,7 +20,7 @@ class UserService {
         newUser.age = user.age;
         newUser.password = hashed;
         newUser.role = "client";
-        newUser = await this.userRepository.save(newUser);
+        await this.userRepository.save(newUser);
         return newUser
     }
 
@@ -35,6 +34,7 @@ class UserService {
         if (!userFound) {
             return 'User is not exist'
         } else {
+            console.log(userFound)
             let passWordCompare = await bcrypt.compare(user.password, userFound.password);
             if (passWordCompare) {
                 let payload = {

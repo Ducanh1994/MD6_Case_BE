@@ -1,151 +1,73 @@
 import {AppDataSource} from "../data-source";
 import {OrderDetail} from "../entity/orderDetail";
-import {Product} from "../entity/product";
-import {Order} from "../entity/order";
 
 
 
-
-class OrderDetailService {
-    private orderDetailRepository;
-    private productRepository;
-    private orderRepository;
+class orderDetailService {
+    private OrderDetailRepository;
 
     constructor() {
-        this.orderDetailRepository = AppDataSource.getRepository(OrderDetail);
-        this.productRepository = AppDataSource.getRepository(Product);
-        this.orderRepository = AppDataSource.getRepository(Order);
+        this.OrderDetailRepository = AppDataSource.getRepository(OrderDetail);
     }
 
-    findOrder = async () => {
-        return await this.orderDetailRepository.find({
-            relations: {order: true, product: true}
-        })
-    }
-
-    findOrderDetailByOrderId = async (orderId) => {
-        return await this.orderDetailRepository.findOne({
-            where: {orderId: orderId},
-            relations: {order: true, product: true}
-        })
-    }
-
-    findOrderDetails = async (orderId) => {
-        return await this.orderDetailRepository.find({
-            relations: {
-                order: true,
-                product: true
-            },
-            where: {
-                order: {
-                    id: orderId,
-                    status: "unpaid"
-                },
-            },
-        })
-    }
-
-    addOrderDetail = async (orderId, product) => {
-        let existOrderDetails = await this.orderDetailRepository.find({
-            where: {
-                order: {
-                    id: orderId
-                },
-                product: {
-                    id: product.id
+    getOrderDetailByIdService = async (orderDetailId) => {
+        try {
+            let orderDetail = await this.OrderDetailRepository.findOne({
+                where: {
+                    id: orderDetailId
                 }
-            },
-        });
+            });
+            return orderDetail;
+        } catch (error) {
+            console.log(`Error at finding Order detail by id service: ${error}`);
+        }
+    };
 
-        if (existOrderDetails[0]) {
-            await this.orderDetailRepository
-                .createQueryBuilder()
-                .update(OrderDetail)
-                .set({
-                    price: product.price,
-                    quantity: existOrderDetails[0].quantity + product.quantity,
-                    totalPrice: product.price * (existOrderDetails[0].quantity + product.quantity),
-                    order: orderId,
-                    product: product.id
-                })
-                .where({order: orderId, product: product.id})
-                .execute()
-        } else {
-            let newOrderDetail = {
-                price: product.price,
-                quantity: product.quantity,
-                totalPrice: product.price * product.quantity,
-                order: orderId,
-                product: product.id
-            }
-            await this.orderDetailRepository.save(newOrderDetail);
+
+    getOrderDetailsByOrderId = async (orderId) =>{
+        try{
+          let orderDetails = await this.OrderDetailRepository.find({
+              relations: {
+                  order: true
+              },
+              where:{
+                    order: {
+                        id: orderId
+                    }
+                }
+            })
+            return orderDetails;
+        }catch(error){
+            console.log(error + 'at find OrderDetails service')
         }
     }
 
-    getPayment = async (orderId,userId) => {
-        await this.editOrder(orderId,userId);
-        let orderDetails = await this.orderDetailRepository.find({
-            where: {
-                order: {
-                    id: orderId
-                }
-            },
-            relations: {order: true, product: true}
-        })
-        return orderDetails;
+    updateOrderDetailByIdService = async (orderDetailId, updateQuantity, price) =>{
+        try{
+            await this.OrderDetailRepository.update({id: orderDetailId}, {quantity:updateQuantity, totalPrice: updateQuantity * price})
+        }catch(error){
+            console.log(error + 'at update quantity of order detail service')
+        }
     }
 
-    editOrder = async (orderId,userId) => {
-        let totalMoney = 0;
-        let orderDetails = await this.orderDetailRepository.find({
-            where: {
-                order: {
-                    id: orderId
-                }
-            },
-            relations: {order: true, product: true}
-        });
-        orderDetails.map(item => {
-            totalMoney += item.totalPrice
-        })
-        await this.orderRepository
-            .createQueryBuilder()
-            .update(Order)
-            .set({ status:"paid",totalMoney: totalMoney })
-            .where({ id: orderId })
-            .execute()
-        let newOrder = {
-            status: "unpaid",
-            totalMoney: 0,
-            orderDetails: [],
-            user: userId
-        };
-        await this.orderRepository.save(newOrder);
+
+    deleteOrderDetailService = async (orderDetailId) =>{
+        try{
+            await this.OrderDetailRepository.delete({id: orderDetailId})
+        }catch(error){
+            console.log(error + 'at delete order detail service')
+        }
     }
 
-    deleteOrderDetail = async (orderId) => {
-        await this.orderDetailRepository
-            .createQueryBuilder()
-            .delete()
-            .from(OrderDetail)
-            .where({ id: orderId })
-            .execute()
-    }
 
-    getHistory = async (orderId) => {
-        return await this.orderDetailRepository.find({
-            where: {
-                order : {
-                    id: orderId,
-                    status: "paid"
-                },
-            },
-            relations: {
-                order: true, product: true
-            }
-        })
-    }
+
+
+
+
+
+
+
 
 }
 
-export default new OrderDetailService();
+export default new orderDetailService();

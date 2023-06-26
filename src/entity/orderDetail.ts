@@ -13,7 +13,6 @@ export class OrderDetail {
     @Column()
     totalPrice: number;
     @ManyToOne(() => Order,(order) => order.orderDetails)
-    @JoinColumn()
     order: Order;
     @ManyToOne(() => Product,(product) => product.orderDetails)
     product: Product;
