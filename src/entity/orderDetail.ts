@@ -6,6 +6,8 @@ import {Product} from "./product";
 export class OrderDetail {
     @PrimaryGeneratedColumn()
     id: number;
+    @Column({default:false})
+    status: boolean;
     @Column()
     price: number;
     @Column()

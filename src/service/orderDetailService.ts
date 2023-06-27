@@ -31,7 +31,8 @@ class orderDetailService {
                     quantity: existOrderDetails[0].quantity + product.quantity,
                     totalPrice: product.price * (existOrderDetails[0].quantity + product.quantity),
                     order: orderId,
-                    product: product.id
+                    product: product.id,
+                    status: product.status
                 })
                 .where({order: orderId, product: product.id})
                 .execute()
@@ -41,17 +42,17 @@ class orderDetailService {
                 quantity: product.quantity,
                 totalPrice: product.price * product.quantity,
                 order: orderId,
-                product: product.id
+                product: product.id,
+                status: product.status
             }
             await this.orderDetailRepository.save(newOrderDetail);
         }
     }
     findOrderDetails = async (orderId) => {
-        return await this.orderDetailRepository.find({
-            relations: {
-                order: true,
-                product: true
-            },
+       return await this.orderDetailRepository.find({
+            relations: [
+                'order','product','product.category'
+            ],
             where: {
                 order: {
                     id: orderId,
