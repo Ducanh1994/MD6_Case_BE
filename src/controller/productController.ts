@@ -32,6 +32,29 @@ class ProductController {
         }
     }
 
+    getProductDetail = async (req: Request, res: Response) => {
+        try {
+            let productID = req.params.id;
+            let product = await ProductService.searchProductByID(productID);
+            let images = await ImageService.getSubImagesByProductId(productID);
+            product.images = images
+            await res.status(202).json(product);
+        } catch (error) {
+            await res.status(500).json(error + ' at get product detail');
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     searchProductByName = async (req: Request, res: Response) => {
         try {
             let products = await ProductService.searchProductByName(req.query.name);
@@ -61,6 +84,24 @@ class ProductController {
             await res.status(500).json(error + ' at searchProductWithPrice in productController');
         }
     }
+
+    //increase orderDetail quantity
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 export default new ProductController();
