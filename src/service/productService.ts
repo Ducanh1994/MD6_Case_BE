@@ -41,15 +41,26 @@ class ProductService {
         }
     }
 
-    searchProductByName = async (keyword) => {
-            return await this.ProductRepository.find({
+    searchProductByName = async (page,page_size,name) => {
+        let start = (page -1) * page_size;
+        let end = start + parseInt(page_size)
+
+            let products = await this.ProductRepository.find({
                 relations: {
                     category: true
                 },
                 where: {
-                    name: Like(`${keyword}%`)
+                    name: Like(`${name}%`)
                 }
             })
+        let total = products.length
+        let listProducts = products.slice(start,end)
+        return {
+            total: total,
+            listProducts: listProducts
+        }
+
+
     }
 
     searchProductByCategoryID = async (categoryID) => {
@@ -125,6 +136,8 @@ class ProductService {
             console.log(error + 'at find one product by id');
         }
     }
+
+
 }
 
 export default new ProductService();

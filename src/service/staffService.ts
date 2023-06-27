@@ -98,6 +98,8 @@ class StaffService {
             paginationStaff: paginationStaff
         }
     }
+
+
 }
 
 export default new StaffService();
