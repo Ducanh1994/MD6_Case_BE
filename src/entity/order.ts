@@ -1,16 +1,17 @@
-import {Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import {OrderDetail} from "./orderDetail";
 import {User} from "./user";
+
 
 @Entity()
 export class Order {
     @PrimaryGeneratedColumn()
     id: number;
-    @Column({type: "varchar", default: "Unpaid"})
+    @Column({ default: "unpaid" })
     status: string;
-    @Column({type: "bigint", default: 0})
+    @Column({ default: 0 })
     totalMoney: number;
-    @Column({type: "timestamp", default: () => "CURRENT_TIMESTAMP", onUpdate: "CURRENT_TIMESTAMP"})
+    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP", onUpdate: "CURRENT_TIMESTAMP" })
     public date: Date;
     @OneToMany(() => OrderDetail,(orderDetail) => orderDetail.order)
     orderDetails: OrderDetail[];
