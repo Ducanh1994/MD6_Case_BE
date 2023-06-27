@@ -1,0 +1,14 @@
+"use strict";
+exports.__esModule = true;
+exports.sellerRouter = void 0;
+var express_1 = require("express");
+var auth_1 = require("../middleware/auth");
+var userAuth_1 = require("../middleware/userAuth");
+var sellerController_1 = require("../controller/sellerController");
+exports.sellerRouter = (0, express_1.Router)();
+exports.sellerRouter.use(auth_1.auth);
+exports.sellerRouter.use(userAuth_1.userAuth);
+// sellerRouter.post('/enableShop', SellerController.enableShop);
+exports.sellerRouter.post('/createProduct', sellerController_1["default"].createProduct);
+exports.sellerRouter.put('/editProduct/:id', sellerController_1["default"].editProduct);
+// sellerRouter.get('/search/:id', SellerController.findStore);
