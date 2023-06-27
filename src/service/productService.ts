@@ -1,6 +1,7 @@
 import {AppDataSource} from "../data-source";
 import {Product} from "../entity/product";
 import {Between, Like} from "typeorm";
+import {productRouter} from "../router/productRouter";
 
 class ProductService {
     private ProductRepository;
@@ -85,6 +86,43 @@ class ProductService {
             return findProducts;
         } catch (error) {
             console.log(error + ' at searchProductByPrice in productService');
+        }
+    }
+    searchProductByIdShop = async (page,page_size,idShop) => {
+        let start = (page -1) * page_size;
+        let end = start + parseInt(page_size)
+        const products =  await this.ProductRepository.find({
+            where: {
+                store: {id:idShop}
+            }
+        })
+        let total = (products.length + 1)
+        let newProducts = products.slice(start,end)
+        return {
+            total,newProducts
+        }
+
+    }
+
+
+    updateProductQuantityService = async (productId, quantity) => {
+        try {
+            await this.ProductRepository.update({id:productId}, {quantity: quantity})
+        } catch (error) {
+            console.log(error + 'at update product quantity');
+        }
+    }
+
+    getOneProductById = async (productId) => {
+        try {
+        let product = await this.ProductRepository.findOne({
+                where: {
+                    id: productId
+                }
+            })
+            return product;
+        } catch (error) {
+            console.log(error + 'at find one product by id');
         }
     }
 }
