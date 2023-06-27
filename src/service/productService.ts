@@ -24,7 +24,8 @@ class ProductService {
         try {
             const findProduct = await this.ProductRepository.findOne({
                 relations:{
-                    category: true
+                    category: true,
+                    store: true
                 },
                 where: {
                     id: productID
