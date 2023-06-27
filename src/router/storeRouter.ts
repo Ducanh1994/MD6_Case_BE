@@ -14,3 +14,4 @@ storeRouter.get('/storeDetail', storeController.getStoreInformation);
 storeRouter.get('/storeType', storeController.getStoreType);
 storeRouter.put('/edit', storeController.updateStoreInformation)
 storeRouter.post('/create', storeController.createStore);
+storeRouter.get('/shop-product', storeController.shopProduct);

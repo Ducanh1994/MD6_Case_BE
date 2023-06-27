@@ -56,11 +56,22 @@ class ProductController {
 
 
     searchProductByName = async (req: Request, res: Response) => {
+        let name = req.query.name;
+        let page = req.query.page;
+        let page_size = req.query.page_size
         try {
-            let products = await ProductService.searchProductByName(req.query.name);
-            await res.status(202).json(products);
+            let data = await ProductService.searchProductByName(page,page_size,name);
+            await res.status(202).json({
+                success:true,
+                message: "oke",
+                data: data
+            });
         } catch (error) {
-            await res.status(500).json(error + ' at searchProductWithName in productController');
+            await res.status(500).json({
+                success: false,
+                message: "error in server at searchProductByName",
+                error: error
+            });
         }
     }
 
@@ -84,22 +95,6 @@ class ProductController {
             await res.status(500).json(error + ' at searchProductWithPrice in productController');
         }
     }
-
-    //increase orderDetail quantity
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
