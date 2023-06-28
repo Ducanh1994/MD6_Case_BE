@@ -19,6 +19,24 @@ class ProductController {
             console.log(error)
         }
     }
+    getMainProduct = async (req:Request,res:Response) => {
+        let page = req.query.page;
+        let page_size = req.query.page_size
+        try {
+            let listProducts = await this.ProductService.getMainProduct(page,page_size)
+             res.status(200).json({
+                data: listProducts,
+                success: true,
+                message: "oke"
+            })
+        } catch (error) {
+            res.status(500).json({
+                success:false,
+                error: error,
+                message: "error in getMainProduct"
+            })
+        }
+    }
 
     searchProductWithID = async (req: Request, res: Response) => {
         try {
@@ -43,15 +61,6 @@ class ProductController {
             await res.status(500).json(error + ' at get product detail');
         }
     }
-
-
-
-
-
-
-
-
-
 
 
 

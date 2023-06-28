@@ -21,6 +21,18 @@ class ProductService {
             console.log(error);
         }
     }
+
+    getMainProduct = async (page,page_size) => {
+        let start = (page -1) * page_size;
+        let end = start + parseInt(page_size)
+        let products = await this.ProductRepository.find()
+        let listProducts = products.slice(start,end)
+        let total = products.lengthc
+        return {
+            listProducts: listProducts,
+            total:total
+        }
+    }
     searchProductByID = async (productID) => {
         try {
             const findProduct = await this.ProductRepository.findOne({

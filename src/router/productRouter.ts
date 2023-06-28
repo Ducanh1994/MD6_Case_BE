@@ -12,6 +12,7 @@ productRouter.get('/search/productName', productController.searchProductByName);
 productRouter.get('/search/productCategory', productController.searchProductWithCategory);
 productRouter.get('/search/productPrice', productController.searchProductWithPrice);
 productRouter.get('/product-detail/:id', productController.getProductDetail)
+productRouter.get('/main-product',productController.getMainProduct)
 
 
 
