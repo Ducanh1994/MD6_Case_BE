@@ -48,10 +48,16 @@ class ProductService {
 
             let products = await this.ProductRepository.find({
                 relations: {
-                    category: true
+                    category: true,
+                    store: true
                 },
                 where: {
                     name: Like(`${name}%`)
+                },
+                select: {
+                    store : {
+                        id :true
+                    }
                 }
             })
         let total = products.length
@@ -104,8 +110,21 @@ class ProductService {
         let start = (page -1) * page_size;
         let end = start + parseInt(page_size)
         const products =  await this.ProductRepository.find({
+            relations: {
+                store: true
+            },
             where: {
                 store: {id:idShop}
+            },
+            select: {
+                store : {
+                    id :true,
+                    name: true,
+                    avatar: true,
+                    address: true,
+                    telephone: true,
+                    email: true
+                }
             }
         })
         let total = (products.length + 1)
