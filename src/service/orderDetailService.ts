@@ -61,6 +61,20 @@ class orderDetailService {
             },
         })
     }
+    findOrderDetailStatusTrue = async (orderId) => {
+        return await this.orderDetailRepository.find({
+            relations: [
+                'order','product','product.category'
+            ],
+            where: {
+                status:true,
+                order: {
+                    id: orderId,
+                    status: "unpaid"
+                },
+            },
+        })
+    }
 
     getOrderDetailByIdService = async (orderDetailId) => {
         try {
