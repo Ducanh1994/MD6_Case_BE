@@ -85,7 +85,11 @@ class StaffService {
     }
 
     addStaffs = async (staff) => {
-        await this.UserRepository.save(staff)
+        const hashed = await bcrypt.hash(staff.password, 10)
+        let {password, ...resolvedStaff} = staff;
+        resolvedStaff.password = hashed
+        let savedUser = await this.UserRepository.save(resolvedStaff);
+        return savedUser;
     }
 
     paginationStaff =  async (page,page_size) => {
