@@ -1,14 +1,18 @@
 import {Request, Response} from 'express'
 import adminService from "../service/adminService"
 import staffService from "../service/staffService";
+import orderService from "../service/orderService";
 
 class AdminController {
     private adminService;
     private staffService;
+    private orderService;
 
     constructor() {
         this.adminService = adminService;
-        this.staffService = staffService
+        this.staffService = staffService;
+        this.orderService = orderService;
+
     }
 
     createStaff = async (req: Request, res: Response) => {
@@ -75,11 +79,16 @@ class AdminController {
     }
 
     addStaff = async (req: Request, res: Response) => {
-        let staff = req.body
+        let staff = req.body;
+        console.log(staff)
         try {
             let message = await this.staffService.checkStaff(staff);
             if(!message){
-                await this.staffService.addStaffs(staff);
+                await this.staffService.addStaffs(staff).then((staff) =>{
+                    console.log('create account success');
+                    this.orderService.createNewOrder(staff);
+                });
+
                 res.status(200).json({
                     success: true,
                     data: staff.id

@@ -3,15 +3,35 @@ import {Order} from "../entity/order";
 
 
 class orderService {
-    private OrderRepository;
+    private orderRepository;
 
     constructor() {
-        this.OrderRepository = AppDataSource.getRepository(Order);
+        this.orderRepository = AppDataSource.getRepository(Order);
+    }
+    createNewOrder = async (user) => {
+        let order = {
+            status: "unpaid",
+            totalMoney: 0,
+            user: user,
+            orderDetails: []
+        }
+        return await this.orderRepository.save(order)
+    }
+    findOrderByUserId = async (userId) => {
+        return await this.orderRepository.findOne({
+            where: {
+                user: {
+                   id: userId
+                },
+                status: "unpaid"
+            },
+            relations: {user: true}
+        })
     }
 
     getOrderService = async (userId) =>{
         try{
-            let foundOrder = await this.OrderRepository.findOne({
+            let foundOrder = await this.orderRepository.findOne({
                 relations: ['orderDetails', 'orderDetails.product', 'orderDetails.product.category'],
                 where:{
                     user:{
@@ -28,7 +48,7 @@ class orderService {
 
     updateOrderTotalMoney = async (orderId, totalMoney) =>{
         try{
-            await this.OrderRepository.update({id: orderId}, {totalMoney: totalMoney})
+            await this.orderRepository.update({id: orderId}, {totalMoney: totalMoney})
         }catch(error){
             console.log(error + 'at update total money of order service')
         }

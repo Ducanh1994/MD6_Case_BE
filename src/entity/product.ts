@@ -10,12 +10,14 @@ export class Product {
     id: number;
     @Column({type: "varchar"})
     name: string;
-    @Column({type: "bigint"})
+    @Column()
     price: number;
-    @Column({type: "bigint"})
+    @Column()
     quantity: number;
     @Column({type: "longtext", nullable: true})
     image: string;
+    @Column({type: "text", nullable: true})
+    description: string;
     @ManyToOne(() => Category,(category) => category.products)
     category: Category;
     @OneToMany( () => Image,(image) => image.product)
