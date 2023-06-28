@@ -19,7 +19,12 @@ class orderService {
     }
     findOrderByUserId = async (userId) => {
         return await this.orderRepository.findOne({
-            where: {user: userId, status: "unpaid"},
+            where: {
+                user: {
+                   id: userId
+                },
+                status: "unpaid"
+            },
             relations: {user: true}
         })
     }
