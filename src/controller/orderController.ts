@@ -178,6 +178,35 @@ class orderController{
     }
 
 
+    checkOut = async (req:Request,res:Response) => {
+        try {
+            let userId = req['decode'].id;
+
+            res.status(201).json({
+                success : true,
+                message: 'get order successfully',
+
+            })
+        }catch (error){
+            res.status(500).json(
+                {
+                    message: 'error at get checkout',
+                    error : error,
+                    success : false
+                }
+            )
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 }
