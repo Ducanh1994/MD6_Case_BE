@@ -36,6 +36,18 @@ class orderDetailController {
             res.status(500).json(error.message)
         }
     }
+    getOrderDetailPending = async (req: Request, res: Response) => {
+        try {
+            let userId = req['decode'].id;
+            let order = await orderService.findOrderByUserId(userId);
+            let orderId = order.id;
+            await orderDetailService.changeStatusBill(orderId);
+            res.status(201).json(await orderDetailService.findOrderDetailPending(orderId))
+        }
+        catch (error) {
+            res.status(500).json(error.message)
+        }
+    }
 }
 export default new orderDetailController();
 
