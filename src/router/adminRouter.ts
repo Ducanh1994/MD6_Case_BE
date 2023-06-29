@@ -2,6 +2,7 @@ import {Router} from 'express'
 import {auth} from "../middleware/auth";
 import {adminAuth} from "../middleware/adminAuth";
 import AdminController from "../controller/adminController";
+import StaffController from "../controller/staffController";
 
 export const adminRouter = Router()
 
@@ -16,5 +17,6 @@ adminRouter.post('/enablingAccount/', AdminController.enablingShopAccount);
 adminRouter.get('/get-staffs',AdminController.showAllStaffs);
 adminRouter.post('/add-staff',AdminController.addStaff);
 adminRouter.get('/pagination-staffs/',AdminController.PaginationStaff)
+adminRouter.delete('/delete-staff/:id',StaffController.deleteStaffById)
 
 

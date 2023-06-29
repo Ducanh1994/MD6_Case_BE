@@ -103,6 +103,15 @@ class StaffService {
         }
     }
 
+    deleteStaff = async (idStaff) => {
+        if(idStaff){
+            await this.UserRepository.delete({id: idStaff})
+        }else {
+            return "Staff not exits"
+        }
+
+    }
+
 
 }
 
