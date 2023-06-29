@@ -23,9 +23,11 @@ class orderService {
                 user: {
                    id: userId
                 },
-                status: "unpaid"
             },
-            relations: {user: true}
+            relations:
+                {
+                user: true
+            }
         })
     }
 

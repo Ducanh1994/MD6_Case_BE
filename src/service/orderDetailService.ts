@@ -121,22 +121,10 @@ class orderDetailService {
             },
         })
     }
-    updateOrderDetailPendingReceipt = async (userId,storeId,productId) => {
+    updateOrderDetailPendingReceipt = async (orderId,storeId,productId) => {
+        console.log('trying to paid',orderId,productId)
+
         return await this.orderDetailRepository
-        //     .find({
-        //     relations: [
-        //         'order','product','product.category','product.store'
-        //     ],
-        //     where: {
-        //         status:true,
-        //         statusBill : "pending",
-        //         product: {
-        //             store: {
-        //                 id: storeId
-        //             }
-        //         }
-        //     },
-        // })
             .createQueryBuilder()
             .update(OrderDetail)
             .set({
@@ -145,6 +133,9 @@ class orderDetailService {
             .where({
                 status: true,
                 statusBill: "pending",
+                product: {
+                    id: productId,
+                },
                 order: {
                     id: orderId
                 }
