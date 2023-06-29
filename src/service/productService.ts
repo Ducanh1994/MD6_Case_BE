@@ -21,6 +21,18 @@ class ProductService {
             console.log(error);
         }
     }
+
+    getMainProduct = async (page,page_size) => {
+        let start = (page -1) * page_size;
+        let end = start + parseInt(page_size)
+        let products = await this.ProductRepository.find()
+        let listProducts = products.slice(start,end)
+        let total = products.lengthc
+        return {
+            listProducts: listProducts,
+            total:total
+        }
+    }
     searchProductByID = async (productID) => {
         try {
             const findProduct = await this.ProductRepository.findOne({
@@ -48,10 +60,16 @@ class ProductService {
 
             let products = await this.ProductRepository.find({
                 relations: {
-                    category: true
+                    category: true,
+                    store: true
                 },
                 where: {
                     name: Like(`${name}%`)
+                },
+                select: {
+                    store : {
+                        id :true
+                    }
                 }
             })
         let total = products.length
@@ -104,8 +122,21 @@ class ProductService {
         let start = (page -1) * page_size;
         let end = start + parseInt(page_size)
         const products =  await this.ProductRepository.find({
+            relations: {
+                store: true
+            },
             where: {
                 store: {id:idShop}
+            },
+            select: {
+                store : {
+                    id :true,
+                    name: true,
+                    avatar: true,
+                    address: true,
+                    telephone: true,
+                    email: true
+                }
             }
         })
         let total = (products.length + 1)
