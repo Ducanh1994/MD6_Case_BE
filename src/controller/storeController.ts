@@ -113,6 +113,24 @@ class StoreController {
             })
         }
     }
+
+    searchStore = async (req: Request, res: Response) => {
+        try {
+            let storeFound = await this.StoreService.searchStore(req.query.name);
+            await res.status(202).json(storeFound);
+        } catch (error) {
+            await res.status(500).json(error + ' at searchAccount in adminController');
+        }
+    }
+
+    searchStoreActive = async (req: Request, res: Response) => {
+        try {
+            let storeFound = await this.StoreService.searchStoreActive(req.query.name);
+            await res.status(202).json(storeFound);
+        } catch (error) {
+            await res.status(500).json(error + ' at searchAccount in adminController');
+        }
+    }
 }
 
 export default new StoreController();

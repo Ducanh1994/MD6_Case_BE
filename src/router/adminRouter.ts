@@ -16,5 +16,7 @@ adminRouter.post('/enablingAccount/', AdminController.enablingShopAccount);
 adminRouter.get('/get-staffs',AdminController.showAllStaffs);
 adminRouter.post('/add-staff',AdminController.addStaff);
 adminRouter.get('/pagination-staffs/',AdminController.PaginationStaff)
+adminRouter.get('/pagination-shops/',AdminController.PaginationShop)
+adminRouter.get('/pagination-shops-active/',AdminController.PaginationShopActive)
 
 

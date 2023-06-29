@@ -68,6 +68,46 @@ class AdminService {
         }
     }
 
+    getShop = async () => {
+        let shops = await this.storeRepository.find({
+            where: {
+                status: "Inactive"
+            },
+        })
+        return shops
+    }
+
+    getShopActive = async () => {
+        let shops = await this.storeRepository.find({
+            where: {
+                status: "Active"
+            },
+        })
+        return shops
+    }
+
+    paginationShop =  async (page,page_size) => {
+        let start = (page -1) * page_size;
+        let end = start + parseInt(page_size)
+        let shops =  await this.getShop()
+        let paginaShop = shops.slice(start,end)
+        return {
+            total: shops.length,
+            paginationShop: paginaShop
+        }
+    }
+
+    paginationShopActive =  async (page,page_size) => {
+        let start = (page -1) * page_size;
+        let end = start + parseInt(page_size)
+        let shops =  await this.getShopActive()
+        let paginaShop = shops.slice(start,end)
+        return {
+            total: shops.length,
+            paginationShop: paginaShop
+        }
+    }
+
     // searchOneUserByID = async (userID) => {
     //     try {
     //         let foundAccount = await this.userRepository.findOne({
@@ -100,26 +140,38 @@ class AdminService {
     }
 
 
-
-
     enablingShop = async (shop) => {
         try {
-            let foundAccount = await this.userRepository.find({
+            let foundStore = await this.storeRepository.find({
                 relations: true,
                 where: {
-                    id: shop.userID
+                        id: shop.storeID
                 }
             })
 
-            if (!foundAccount) {
+            foundStore[0].status = "Active"
+            if (!foundStore) {
                 return 'Store not found';
             } else {
-                let storeID = foundAccount.id;
-
                 await this.storeRepository.save({
-                    id: storeID,
-                    status: "Active"
+                    id: foundStore[0].id,
+                    ...foundStore[0]
                 })
+
+                let foundUser = await this.userRepository.find({
+                    relations: true,
+                    where: {
+                        store: {
+                            id: shop.storeID
+                        }
+                    }
+                })
+                foundUser[0].role = "seller"
+
+                await this.userRepository.save({
+                    ...foundUser[0]
+                })
+
 
                 return 'The store has been active';
             }

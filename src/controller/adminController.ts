@@ -139,6 +139,71 @@ class AdminController {
         }
     }
 
+    PaginationShop = async (req: Request, res: Response) => {
+        try {
+            let page = req.query.page
+            let page_size = req.query.page_size
+            if(page){
+                let data = await this.adminService.paginationShop(page,page_size)
+                res.status(200).json({
+                    message: "oke",
+                    success: true,
+                    data: data
+                })
+            }else {
+                let data = await this.adminService.getShop();
+                res.status(200).json({
+                    message: "oke",
+                    success: true,
+                    data: data
+                })
+            }
+
+
+
+        } catch (error) {
+            res.status(500).json(
+                {
+                    message: "error at PaginationStaff",
+                    success: false,
+                    error: error
+                }
+            )
+        }
+    }
+
+    PaginationShopActive = async (req: Request, res: Response) => {
+        try {
+            let page = req.query.page
+            let page_size = req.query.page_size
+            if(page){
+                let data = await this.adminService.paginationShopActive(page,page_size)
+                res.status(200).json({
+                    message: "oke",
+                    success: true,
+                    data: data
+                })
+            }else {
+                let data = await this.adminService.getShopActive();
+                res.status(200).json({
+                    message: "oke",
+                    success: true,
+                    data: data
+                })
+            }
+
+
+
+        } catch (error) {
+            res.status(500).json(
+                {
+                    message: "error at PaginationStaff",
+                    success: false,
+                    error: error
+                }
+            )
+        }
+    }
 }
 
 export default new AdminController();

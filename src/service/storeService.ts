@@ -3,6 +3,7 @@ import {Store} from "../entity/store";
 import {User} from "../entity/user";
 import bcrypt from "bcrypt";
 import {StoreType} from "../entity/storeType";
+import {Like} from "typeorm";
 
 class StoreService {
     private StoreRepository;
@@ -163,9 +164,43 @@ class StoreService {
         }
     }
 
+    searchStore = async (keyWord) => {
+        try {
+            let foundStore = await this.StoreRepository.find({
+                where: [
+                    {
+                        name: Like(`%${keyWord}%`), status:"Inactive"
+                    }
+                ]
+            })
+            if (!foundStore) {
+                return 'There is no store that exists';
+            } else {
+                return foundStore;
+            }
+        } catch (error) {
+            console.log(error + 'at searchStore in adminService');
+        }
+    }
 
-
-
+    searchStoreActive = async (keyWord) => {
+        try {
+            let foundStore = await this.StoreRepository.find({
+                where: [
+                    {
+                        name: Like(`%${keyWord}%`), status:"Active"
+                    }
+                ]
+            })
+            if (!foundStore) {
+                return 'There is no store active that exists';
+            } else {
+                return foundStore;
+            }
+        } catch (error) {
+            console.log(error + 'at searchStoreActive in adminService');
+        }
+    }
 
 
 }
