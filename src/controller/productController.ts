@@ -19,6 +19,15 @@ class ProductController {
             console.log(error)
         }
     }
+    getAllProductByStoreId = async (req:Request,res:Response) => {
+        try {
+            const storeId = req.body.data;
+            let products = await ProductService.getAllProductByStoreId(storeId);
+            await res.status(201).json(products)
+        }catch (error){
+            console.log(error)
+        }
+    }
     getMainProduct = async (req:Request,res:Response) => {
         let page = req.query.page;
         let page_size = req.query.page_size

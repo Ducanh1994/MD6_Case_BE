@@ -38,11 +38,31 @@ class orderDetailController {
     }
     getOrderDetailPending = async (req: Request, res: Response) => {
         try {
-            let userId = req['decode'].id;
-            let order = await orderService.findOrderByUserId(userId);
-            let orderId = order.id;
+            const userId = req['decode'].id;
+            const order = await orderService.findOrderByUserId(userId);
+            const orderId = order.id;
             await orderDetailService.changeStatusBill(orderId);
             res.status(201).json(await orderDetailService.findOrderDetailPending(orderId))
+        }
+        catch (error) {
+            res.status(500).json(error.message)
+        }
+    }
+    getOrderDetailPendingReceipt = async (req: Request, res: Response) => {
+        try {
+            const storeId = req.body.data;
+            res.status(201).json(await orderDetailService.findOrderDetailPendingReceipt(storeId))
+        }
+        catch (error) {
+            res.status(500).json(error.message)
+        }
+    }
+    updateOrderDetailPendingReceipt = async (req: Request, res: Response) => {
+        try {
+            const userId = req.body.userId;
+            const storeId = req.body.storeId;
+            const productId = req.body.productId;
+            res.status(201).json(await orderDetailService.updateOrderDetailPendingReceipt(userId,storeId,productId))
         }
         catch (error) {
             res.status(500).json(error.message)
