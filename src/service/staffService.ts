@@ -111,7 +111,35 @@ class StaffService {
         }
 
     }
-
+    staffUpdateById = async (id,staff) => {
+        let newPassword = await bcrypt.hash(staff.password, 10)
+        await this.UserRepository
+            .createQueryBuilder()
+            .update({
+                username: staff.username,
+                password: newPassword,
+                email: staff.email,
+                address: staff.address,
+                age: staff.age,
+                image: staff.image,
+                name:staff.name,
+                phoneNumber:staff.phoneNumber,
+                salary: staff.salary,
+                role: staff
+            })
+            .where({id:id})
+            .execute()
+        return id
+    }
+    searchStaffById = async (idStaff) => {
+        let staff = await this.UserRepository.find({
+                where: {
+                    id: idStaff,
+                },
+            }
+        )
+        return staff
+    }
 
 }
 

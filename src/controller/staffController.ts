@@ -72,6 +72,26 @@ class StaffController {
             res.status(500).json(error + ' at staffUpdateInfo in staffController');
         }
     }
+
+    findStaffById = async (req: Request, res: Response) => {
+        let idStaff = req.params.id
+        try {
+            let staff =  await this.StaffService.searchStaffById(idStaff)
+
+            res.status(200).json({
+                data: staff[0],
+                success: true,
+                message: "oke"
+            })
+
+        } catch (error){
+            res.status(500).json({
+                message: "error at deleteStaffById",
+                success: false,
+                error: error
+            })
+        }
+    }
 }
 
 export default new StaffController();

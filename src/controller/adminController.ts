@@ -138,6 +138,27 @@ class AdminController {
             )
         }
     }
+    editStaffById = async (req:Request,res:Response) => {
+        let id = req.params.id
+        let staff = req.body
+        try {
+           let idStaff = await this.staffService.staffUpdateById(id,staff)
+            res.status(200).json({
+                success:true,
+                message:"oke",
+                data: idStaff
+            })
+
+        } catch (error) {
+            res.status(500).json(
+                {
+                    message: "error at PaginationStaff",
+                    success: false,
+                    error: error
+                }
+            )
+        }
+    }
 
 }
 
