@@ -52,6 +52,15 @@ class orderDetailController {
             res.status(500).json(error.message)
         }
     }
+    getOrderDetailConfirmedReceipt = async (req: Request, res: Response) => {
+        try {
+            const storeId = req.params.id;
+            let orderDetails = await orderDetailService.findOrderDetailConfirmedReceipt(storeId);
+            res.status(201).json(orderDetails)
+        } catch (error) {
+            res.status(500).json(error.message)
+        }
+    }
     updateOrderDetailPendingReceipt = async (req: Request, res: Response) => {
         try {
             const userId = req.body.userId;

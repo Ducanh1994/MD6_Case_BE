@@ -9,6 +9,7 @@ orderDetailRouter.get('/invoice',orderDetailController.getOrderDetailStatusTrue)
 orderDetailRouter.get('/pending',orderDetailController.getOrderDetailPending);
 orderDetailRouter.post('/pending-receipt',orderDetailController.getOrderDetailPendingReceipt);
 orderDetailRouter.post('/pending-receipt/update',orderDetailController.updateOrderDetailPendingReceipt);
+orderDetailRouter.get('/confirmed-receipt/:id',orderDetailController.getOrderDetailConfirmedReceipt);
 
 
 

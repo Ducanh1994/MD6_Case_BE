@@ -121,6 +121,22 @@ class orderDetailService {
             },
         })
     }
+    findOrderDetailConfirmedReceipt = async (storeId) => {
+        return await this.orderDetailRepository.find({
+            relations: [
+                'order','product','product.category','product.store'
+            ],
+            where: {
+                status:true,
+                statusBill : "paid",
+                product: {
+                    store: {
+                        id: storeId
+                    }
+                }
+            },
+        })
+    }
     updateOrderDetailPendingReceipt = async (orderId,storeId,productId) => {
         console.log('trying to paid',orderId,productId)
 
