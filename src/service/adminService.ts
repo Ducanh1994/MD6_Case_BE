@@ -180,6 +180,7 @@ class AdminService {
         }
     }
 
+
     showUser = async () => {
         try {
             let allAccount = await this.userRepository.find({
@@ -195,6 +196,48 @@ class AdminService {
             }
         } catch (error) {
             console.log(error + ' at showUser in adminService');
+        }
+    }
+
+    rejectShop = async (shop) => {
+        try {
+            let foundUser = await this.userRepository.find({
+                relations: true,
+                where: {
+                    store: {
+                        id: shop.storeID
+                    }
+                }
+            })
+            console.log(foundUser)
+            foundUser[0].role = "client";
+            foundUser[0].store= null;
+
+            await this.userRepository.save({
+                ...foundUser[0]
+            })
+
+            let foundStore = await this.storeRepository.find({
+                relations: true,
+                where: {
+                    id: shop.storeID
+                }
+            })
+            console.log(foundStore)
+
+            // foundStore[0].status = "Active"
+            if (!foundStore) {
+                return 'Store not found';
+            } else {
+                await this.storeRepository.delete({
+                    id: shop.storeID
+                })
+
+
+                return 'The store has been reject';
+            }
+        } catch (error) {
+            console.log(error + ' at rejectShop in adminService');
         }
     }
 }

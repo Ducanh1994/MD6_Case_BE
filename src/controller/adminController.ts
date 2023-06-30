@@ -204,6 +204,15 @@ class AdminController {
             )
         }
     }
+
+    rejectShopAccount = async (req: Request, res: Response) => {
+        try {
+            let shopStatus = await this.adminService.rejectShop(req.body);
+            await res.status(201).json(shopStatus);
+        } catch (error) {
+            await res.status(500).json(error + ' at ejectShopAccount in adminController');
+        }
+    }
 }
 
 export default new AdminController();

@@ -13,6 +13,7 @@ adminRouter.post('/createAccount/', AdminController.createStaff);
 adminRouter.get('/showAccount/', AdminController.showAllAccount);
 adminRouter.get('/searchAccount/', AdminController.searchAccount);
 adminRouter.post('/enablingAccount/', AdminController.enablingShopAccount);
+adminRouter.post('/rejectAccount/', AdminController.rejectShopAccount);
 adminRouter.get('/get-staffs',AdminController.showAllStaffs);
 adminRouter.post('/add-staff',AdminController.addStaff);
 adminRouter.get('/pagination-staffs/',AdminController.PaginationStaff)
