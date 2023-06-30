@@ -108,7 +108,7 @@ class orderDetailService {
     findOrderDetailPendingReceipt = async (storeId) => {
         return await this.orderDetailRepository.find({
             relations: [
-                'order','product','product.category','product.store'
+                'order','product','product.category','product.store','order.user'
             ],
             where: {
                 status:true,
@@ -138,8 +138,6 @@ class orderDetailService {
         })
     }
     updateOrderDetailPendingReceipt = async (orderId,storeId,productId) => {
-        console.log('trying to paid',orderId,productId)
-
         return await this.orderDetailRepository
             .createQueryBuilder()
             .update(OrderDetail)
@@ -208,15 +206,20 @@ class orderDetailService {
         }
     }
 
-
-
-
-
-
-
-
-
-
+    findOrderDetailSuccess = async (orderId) => {
+        return await this.orderDetailRepository.find({
+            relations: [
+                'order','product','product.category'
+            ],
+            where: {
+                status:true,
+                statusBill : "paid",
+                order: {
+                    id: orderId
+                },
+            },
+        })
+    }
 }
 
 export default new orderDetailService();
