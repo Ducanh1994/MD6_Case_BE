@@ -1,6 +1,7 @@
 import {AppDataSource} from "../data-source";
 import {OrderDetail} from "../entity/orderDetail";
-
+import orderService from "./orderService";
+import userService from "./userService";
 
 
 class orderDetailService {
@@ -9,6 +10,7 @@ class orderDetailService {
     constructor() {
         this.orderDetailRepository = AppDataSource.getRepository(OrderDetail);
     }
+
     addOrderDetail = async (orderId, product) => {
         let existOrderDetails = await this.orderDetailRepository.find({
             where: {
@@ -49,9 +51,9 @@ class orderDetailService {
         }
     }
     findOrderDetails = async (orderId) => {
-       return await this.orderDetailRepository.find({
+        return await this.orderDetailRepository.find({
             relations: [
-                'order','product','product.category'
+                'order', 'product', 'product.category'
             ],
             where: {
                 order: {
@@ -64,10 +66,10 @@ class orderDetailService {
     findOrderDetailStatusTrue = async (orderId) => {
         return await this.orderDetailRepository.find({
             relations: [
-                'order','product','product.category'
+                'order', 'product', 'product.category'
             ],
             where: {
-                status:true,
+                status: true,
                 order: {
                     id: orderId,
                     status: "unpaid"
@@ -75,16 +77,17 @@ class orderDetailService {
             },
         })
     }
-    findOrderDetailPending = async (orderId) => {
+    findOrderDetailPending = async (userId) => {
         return await this.orderDetailRepository.find({
             relations: [
-                'order','product','product.category'
+                'order', 'product', 'product.category', 'order.user'
             ],
             where: {
-                status:true,
-                statusBill : "pending",
+                statusBill: "pending",
                 order: {
-                    id: orderId
+                    user: {
+                        id: userId
+                    }
                 },
             },
         })
@@ -94,25 +97,25 @@ class orderDetailService {
             .createQueryBuilder()
             .update(OrderDetail)
             .set({
-                statusBill : "pending"
+                statusBill: "pending"
             })
             .where({
-                    status: true,
-                    statusBill: "unpaid",
-                    order: {
-                        id: orderId
-                    }
-                })
+                status: true,
+                statusBill: "unpaid",
+                order: {
+                    id: orderId
+                }
+            })
             .execute()
     }
     findOrderDetailPendingReceipt = async (storeId) => {
         return await this.orderDetailRepository.find({
             relations: [
-                'order','product','product.category','product.store','order.user'
+                'order', 'product', 'product.category', 'product.store', 'order.user'
             ],
             where: {
-                status:true,
-                statusBill : "pending",
+                status: true,
+                statusBill: "pending",
                 product: {
                     store: {
                         id: storeId
@@ -124,11 +127,11 @@ class orderDetailService {
     findOrderDetailConfirmedReceipt = async (storeId) => {
         return await this.orderDetailRepository.find({
             relations: [
-                'order','product','product.category','product.store'
+                'order', 'product', 'product.category', 'product.store', 'order.user'
             ],
             where: {
-                status:true,
-                statusBill : "paid",
+                status: true,
+                statusBill: "paid",
                 product: {
                     store: {
                         id: storeId
@@ -137,24 +140,26 @@ class orderDetailService {
             },
         })
     }
-    updateOrderDetailPendingReceipt = async (orderId,storeId,productId) => {
-        return await this.orderDetailRepository
-            .createQueryBuilder()
-            .update(OrderDetail)
-            .set({
-                statusBill : "paid"
-            })
-            .where({
-                status: true,
-                statusBill: "pending",
-                product: {
-                    id: productId,
-                },
-                order: {
-                    id: orderId
-                }
-            })
-            .execute()
+    updateOrderDetailPendingReceipt = async (orderDetailId) => {
+        await this.orderDetailRepository.update({id: orderDetailId}, {statusBill: 'paid'})
+
+        // return await this.orderDetailRepository
+        //     .createQueryBuilder()
+        //     .update(OrderDetail)
+        //     .set({
+        //         statusBill: "paid"
+        //     })
+        //     .where({
+        //         status: true,
+        //         statusBill: "pending",
+        //         product: {
+        //             id: productId,
+        //         },
+        //         order: {
+        //             id: orderId
+        //         }
+        //     })
+        //     .execute()
     }
 
     getOrderDetailByIdService = async (orderDetailId) => {
@@ -171,54 +176,80 @@ class orderDetailService {
     };
 
 
-    getOrderDetailsByOrderId = async (orderId) =>{
-        try{
-          let orderDetails = await this.orderDetailRepository.find({
-              relations: {
-                  order: true
-              },
-              where:{
+    getOrderDetailsByOrderId = async (orderId) => {
+        try {
+            let orderDetails = await this.orderDetailRepository.find({
+                relations: {
+                    order: true
+                },
+                where: {
                     order: {
                         id: orderId
                     }
                 }
             })
             return orderDetails;
-        }catch(error){
+        } catch (error) {
             console.log(error + 'at find OrderDetails service')
         }
     }
 
-    updateOrderDetailByIdService = async (orderDetailId, updateQuantity, price) =>{
-        try{
-            await this.orderDetailRepository.update({id: orderDetailId}, {quantity:updateQuantity, totalPrice: updateQuantity * price})
-        }catch(error){
+    updateOrderDetailByIdService = async (orderDetailId, updateQuantity, price) => {
+        try {
+            await this.orderDetailRepository.update({id: orderDetailId}, {
+                quantity: updateQuantity,
+                totalPrice: updateQuantity * price
+            })
+        } catch (error) {
             console.log(error + 'at update quantity of order detail service')
         }
     }
 
 
-    deleteOrderDetailService = async (orderDetailId) =>{
-        try{
+    deleteOrderDetailService = async (orderDetailId) => {
+        try {
             await this.orderDetailRepository.delete({id: orderDetailId})
-        }catch(error){
+        } catch (error) {
             console.log(error + 'at delete order detail service')
         }
     }
+    findOrderDetailSuccess = async (userId) => {
 
-    findOrderDetailSuccess = async (orderId) => {
         return await this.orderDetailRepository.find({
             relations: [
-                'order','product','product.category'
+                'order', 'product', 'product.category', 'order.user'
             ],
             where: {
-                status:true,
-                statusBill : "paid",
+                status: true,
+                statusBill: "paid",
                 order: {
-                    id: orderId
+                    user: {
+                        id: userId
+                    }
                 },
             },
         })
+    }
+    saveOrderDetailPending = async (userId) => {
+        const order = await orderService.findOrderByUserId(userId);
+        await orderService.sendPending(order.id)
+        const user = await userService.findOne(userId);
+        await this.orderDetailRepository.update(
+            {
+                order: order.id,
+                status: true
+            },
+            {statusBill: 'pending'}
+        )
+
+        const newOrder = await orderService.createNewOrder(user);
+        await this.orderDetailRepository.update(
+            {
+                order: order.id,
+                status: false
+            },
+            {order: newOrder}
+        )
     }
 }
 

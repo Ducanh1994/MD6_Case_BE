@@ -38,8 +38,20 @@ class orderDetailController {
             const userId = req['decode'].id;
             const order = await orderService.findOrderByUserId(userId);
             const orderId = order.id;
-            await orderDetailService.changeStatusBill(orderId);
-            res.status(201).json(await orderDetailService.findOrderDetailPending(orderId))
+
+            // await orderDetailService.changeStatusBill(orderId);
+
+            res.status(201).json(await orderDetailService.findOrderDetailPending(userId))
+        } catch (error) {
+            res.status(500).json(error.message)
+        }
+    }
+
+    sendOrderDetailPending = async (req: Request, res: Response) => {
+        try {
+            const userId = req['decode'].id;
+            await orderDetailService.saveOrderDetailPending(userId);
+            res.status(201).json("ok")
         } catch (error) {
             res.status(500).json(error.message)
         }
@@ -47,9 +59,9 @@ class orderDetailController {
     getOrderDetailSuccess = async (req: Request, res: Response) => {
         try {
             const userId = req['decode'].id;
-            const order = await orderService.findOrderByUserId(userId);
-            const orderId = order.id;
-            const orderDetails = await orderDetailService.findOrderDetailSuccess(orderId)
+            // const order = await orderService.findOrderByUserId(userId);
+            // const orderId = order.id;
+            const orderDetails = await orderDetailService.findOrderDetailSuccess(userId)
             res.status(201).json(orderDetails)
         } catch (error) {
             res.status(500).json(error.message)
@@ -58,7 +70,8 @@ class orderDetailController {
     getOrderDetailPendingReceipt = async (req: Request, res: Response) => {
         try {
             const storeId = req.body.data;
-            res.status(201).json(await orderDetailService.findOrderDetailPendingReceipt(storeId))
+            console.log("get pending receipt of store:", storeId)
+            res.status(201).json(await orderDetailService.findOrderDetailPendingReceipt(storeId));
         } catch (error) {
             res.status(500).json(error.message)
         }
@@ -74,12 +87,8 @@ class orderDetailController {
     }
     updateOrderDetailPendingReceipt = async (req: Request, res: Response) => {
         try {
-            const userId = req.body.userId;
-            const order = await orderService.findOrderByUserId(userId);
-            const orderId = order.id;
-            const storeId = req.body.storeId;
-            const productId = req.body.productId;
-            await orderDetailService.updateOrderDetailPendingReceipt(orderId, storeId, productId)
+            console.log("orderDetail to comfirm:", req.body['orderDetail'])
+            await orderDetailService.updateOrderDetailPendingReceipt(req.body['orderDetail'])
             res.status(201).json("ok")
         } catch (error) {
             console.log("error in update pending:", error)

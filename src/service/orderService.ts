@@ -8,6 +8,7 @@ class orderService {
     constructor() {
         this.orderRepository = AppDataSource.getRepository(Order);
     }
+
     createNewOrder = async (user) => {
         let order = {
             status: "unpaid",
@@ -21,48 +22,57 @@ class orderService {
         return await this.orderRepository.findOne({
             where: {
                 user: {
-                   id: userId
+                    id: userId
                 },
+                status: 'unpaid'
             },
             relations:
                 {
-                user: true
-            }
+                    user: true
+                }
         })
     }
 
-    getOrderService = async (userId) =>{
-        try{
+    getOrderService = async (userId) => {
+        try {
             let foundOrder = await this.orderRepository.findOne({
                 relations: ['orderDetails', 'orderDetails.product', 'orderDetails.product.category'],
-                where:{
-                    user:{
+                where: {
+                    user: {
                         id: userId
                     },
                     status: 'unpaid'
                 }
             })
             return foundOrder;
-        }catch(error){
+        } catch (error) {
             console.log(error + 'at find Order service')
         }
     }
 
-    updateOrderTotalMoney = async (orderId, totalMoney) =>{
-        try{
+    updateOrderTotalMoney = async (orderId, totalMoney) => {
+        try {
             await this.orderRepository.update({id: orderId}, {totalMoney: totalMoney})
-        }catch(error){
+        } catch (error) {
             console.log(error + 'at update total money of order service')
         }
     }
+    deleteOrderByUserId = async (orderId) => {
+        try {
+            await this.orderRepository.delete({id: orderId})
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
-
-
-
-
-
-
-
+    sendPending = async (orderId) => {
+        await this.orderRepository.update({
+                id: orderId
+            },
+            {
+                status: 'pending'
+            })
+    }
 }
 
 export default new orderService();

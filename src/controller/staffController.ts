@@ -1,11 +1,14 @@
 import {Request, Response} from "express";
 import StaffService from "../service/staffService";
+import orderService from "../service/orderService";
 
 class StaffController {
     private StaffService;
+    private orderService;
 
     constructor() {
         this.StaffService = StaffService;
+        this.orderService = orderService;
     }
 
     // Await check to find all user
@@ -31,8 +34,11 @@ class StaffController {
     }
 
     deleteStaffById = async (req: Request, res: Response) => {
-        let id = parseInt(req.params.id)
         try {
+            let id = parseInt(req.params.id);
+           let order = await this.orderService.findOrderByUserId(id);
+           const orderId = order.id;
+            await this.orderService.deleteOrderByUserId(orderId);
             await this.StaffService.deleteStaff(id)
             res.status(200).json({
                 success: true,

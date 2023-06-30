@@ -26,11 +26,11 @@ class UserService {
 
     checkUser = async (user) => {
         let userFound = await this.userRepository.findOne({
-                where: {username: user.username},
-                relations: {
-                    store: true
-                }
-            })
+            where: {username: user.username},
+            relations: {
+                store: true
+            }
+        })
         if (!userFound) {
             return 'User is not exist'
         } else {
@@ -93,7 +93,9 @@ class UserService {
         }
     }
 
-
+    findOne = async (id) => {
+        return await this.userRepository.findOneBy({id: id})
+    }
 
 
 }
