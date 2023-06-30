@@ -75,6 +75,87 @@ class orderDetailService {
             },
         })
     }
+    findOrderDetailPending = async (orderId) => {
+        return await this.orderDetailRepository.find({
+            relations: [
+                'order','product','product.category'
+            ],
+            where: {
+                status:true,
+                statusBill : "pending",
+                order: {
+                    id: orderId
+                },
+            },
+        })
+    }
+    changeStatusBill = async (orderId) => {
+        return await this.orderDetailRepository
+            .createQueryBuilder()
+            .update(OrderDetail)
+            .set({
+                statusBill : "pending"
+            })
+            .where({
+                    status: true,
+                    statusBill: "unpaid",
+                    order: {
+                        id: orderId
+                    }
+                })
+            .execute()
+    }
+    findOrderDetailPendingReceipt = async (storeId) => {
+        return await this.orderDetailRepository.find({
+            relations: [
+                'order','product','product.category','product.store','order.user'
+            ],
+            where: {
+                status:true,
+                statusBill : "pending",
+                product: {
+                    store: {
+                        id: storeId
+                    }
+                }
+            },
+        })
+    }
+    findOrderDetailConfirmedReceipt = async (storeId) => {
+        return await this.orderDetailRepository.find({
+            relations: [
+                'order','product','product.category','product.store'
+            ],
+            where: {
+                status:true,
+                statusBill : "paid",
+                product: {
+                    store: {
+                        id: storeId
+                    }
+                }
+            },
+        })
+    }
+    updateOrderDetailPendingReceipt = async (orderId,storeId,productId) => {
+        return await this.orderDetailRepository
+            .createQueryBuilder()
+            .update(OrderDetail)
+            .set({
+                statusBill : "paid"
+            })
+            .where({
+                status: true,
+                statusBill: "pending",
+                product: {
+                    id: productId,
+                },
+                order: {
+                    id: orderId
+                }
+            })
+            .execute()
+    }
 
     getOrderDetailByIdService = async (orderDetailId) => {
         try {
@@ -125,15 +206,20 @@ class orderDetailService {
         }
     }
 
-
-
-
-
-
-
-
-
-
+    findOrderDetailSuccess = async (orderId) => {
+        return await this.orderDetailRepository.find({
+            relations: [
+                'order','product','product.category'
+            ],
+            where: {
+                status:true,
+                statusBill : "paid",
+                order: {
+                    id: orderId
+                },
+            },
+        })
+    }
 }
 
 export default new orderDetailService();

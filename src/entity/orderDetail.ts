@@ -14,6 +14,8 @@ export class OrderDetail {
     quantity: number;
     @Column()
     totalPrice: number;
+    @Column({default:"unpaid"})
+    statusBill: string;
     @ManyToOne(() => Order,(order) => order.orderDetails)
     order: Order;
     @ManyToOne(() => Product,(product) => product.orderDetails)

@@ -7,6 +7,7 @@ import productController from "../controller/productController";
 
 export const productRouter = Router();
 productRouter.get("/",productController.getAllProduct)
+productRouter.post("/store",productController.getAllProductByStoreId)
 productRouter.get('/getOne/:id', productController.searchProductWithID);
 productRouter.get('/search/productName', productController.searchProductByName);
 productRouter.get('/search/productCategory', productController.searchProductWithCategory);

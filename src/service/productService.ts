@@ -1,7 +1,6 @@
 import {AppDataSource} from "../data-source";
 import {Product} from "../entity/product";
 import {Between, Like} from "typeorm";
-import {productRouter} from "../router/productRouter";
 
 class ProductService {
     private ProductRepository;
@@ -15,6 +14,22 @@ class ProductService {
             return await this.ProductRepository.find({
                 relations: {
                     category:true
+                }
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    getAllProductByStoreId = async (storeId) => {
+        try {
+            return await this.ProductRepository.find({
+                relations: [
+                    'store','category'
+                ],
+                where: {
+                    store: {
+                        id: storeId
+                    }
                 }
             })
         } catch (error) {
