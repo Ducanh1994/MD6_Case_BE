@@ -30,6 +30,23 @@ class StaffController {
         }
     }
 
+    deleteStaffById = async (req: Request, res: Response) => {
+        let id = parseInt(req.params.id)
+        try {
+            await this.StaffService.deleteStaff(id)
+            res.status(200).json({
+                success: true,
+                message: "Employee information has been successfully deleted"
+            })
+        } catch (error) {
+            res.status(500).json({
+                message: "error at deleteStaffById",
+                success: false,
+                error: error
+            })
+        }
+    }
+
     // Await check to find user
     staffSearchUser = async (req: Request, res: Response) => {
         try {
@@ -53,6 +70,26 @@ class StaffController {
             }
         } catch (error) {
             res.status(500).json(error + ' at staffUpdateInfo in staffController');
+        }
+    }
+
+    findStaffById = async (req: Request, res: Response) => {
+        let idStaff = req.params.id
+        try {
+            let staff =  await this.StaffService.searchStaffById(idStaff)
+
+            res.status(200).json({
+                data: staff[0],
+                success: true,
+                message: "oke"
+            })
+
+        } catch (error){
+            res.status(500).json({
+                message: "error at deleteStaffById",
+                success: false,
+                error: error
+            })
         }
     }
 }

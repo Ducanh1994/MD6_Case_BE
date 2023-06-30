@@ -9,14 +9,23 @@ class ClientController {
     }
 
     buyProduct = async (req: Request, res: Response) => {
-        let userId = req['decode'].id;
-        let order = await orderService.findOrderByUserId(userId);
-        let orderId = order.id;
-        let product = req.body;
-        await orderDetailService.addOrderDetail(orderId, product);
-        let orderDetails = await orderDetailService.findOrderDetails(orderId)
-        res.status(200).json(orderDetails)
-    }
+        try {
+            let userId = req['decode'].id;
+            let order = await orderService.findOrderByUserId(userId);
+            let orderId = order.id;
+            let product = req.body;
+            await orderDetailService.addOrderDetail(orderId, product);
+            let orderDetails = await orderDetailService.findOrderDetails(orderId)
+            res.status(200).json(orderDetails)
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                error: error,
+                message: "error in buyProduct"
+            })
+        }
+        }
+
 }
 
 export default new ClientController();

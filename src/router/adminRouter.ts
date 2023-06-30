@@ -17,7 +17,8 @@ adminRouter.post('/rejectAccount/', AdminController.rejectShopAccount);
 adminRouter.get('/get-staffs',AdminController.showAllStaffs);
 adminRouter.post('/add-staff',AdminController.addStaff);
 adminRouter.get('/pagination-staffs/',AdminController.PaginationStaff)
+adminRouter.delete('/delete-staff/:id',StaffController.deleteStaffById)
+adminRouter.put('/edit-staff/:id',AdminController.editStaffById)
 adminRouter.get('/pagination-shops/',AdminController.PaginationShop)
 adminRouter.get('/pagination-shops-active/',AdminController.PaginationShopActive)
-
 
