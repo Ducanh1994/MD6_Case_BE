@@ -25,9 +25,18 @@ class ProductService {
     getMainProduct = async (page,page_size) => {
         let start = (page -1) * page_size;
         let end = start + parseInt(page_size)
-        let products = await this.ProductRepository.find()
+        let products = await this.ProductRepository.find({
+            relations:{
+                store: true
+            },
+            select: {
+                store : {
+                    id :true
+                }
+            }
+        })
         let listProducts = products.slice(start,end)
-        let total = products.lengthc
+        let total = products.length
         return {
             listProducts: listProducts,
             total:total
