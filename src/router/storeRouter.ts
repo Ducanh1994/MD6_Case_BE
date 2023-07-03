@@ -8,6 +8,7 @@ import {userAuth} from "../middleware/userAuth";
 export const storeRouter = Router();
 
 storeRouter.get('/search/ID', storeController.searchStoreWithID);
+storeRouter.get('/show-shop', storeController.showAllStore);
 storeRouter.use(auth)
 // storeRouter.use(userAuth)
 storeRouter.get('/storeDetail', storeController.getStoreInformation);
@@ -15,7 +16,8 @@ storeRouter.get('/storeType', storeController.getStoreType);
 storeRouter.put('/edit', storeController.updateStoreInformation)
 storeRouter.post('/create', storeController.createStore);
 storeRouter.get('/shop-product', storeController.shopProduct);
+
 storeRouter.use(adminAuth);
 storeRouter.get('/searchStore', storeController.searchStore);
 storeRouter.get('/searchStoreActive', storeController.searchStoreActive);
-storeRouter.get('/show-shop', storeController.showAllStore);
+
