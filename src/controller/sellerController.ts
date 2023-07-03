@@ -32,6 +32,17 @@ class SellerController {
             res.status(500).json('Internal server error');
         }
     }
+    searchProduct = async (req: Request, res: Response)=> {
+        try {
+          const name = req.query.name;
+          const storeId = req.query.storeId;
+          const products = await sellerService.searchProduct(name,storeId);
+          res.status(200).json(products)
+        } catch (error) {
+            console.log(error);
+            res.status(500).json('Internal server error');
+        }
+    }
 
 
     editProduct = async (req: Request, res: Response) => {

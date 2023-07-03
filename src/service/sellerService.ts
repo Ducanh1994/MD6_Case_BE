@@ -3,6 +3,7 @@ import {Product} from "../entity/product";
 import {Image} from "../entity/image";
 import {Store} from "../entity/store"
 import StoreService from "./productService";
+import {Like} from "typeorm";
 
 class SellerService {
     private ProductRepository;
@@ -17,22 +18,19 @@ class SellerService {
         this.StoreService = StoreService;
     }
 
-    // Used for main seller page
-    // findStoreByID = async (userID) => {
-    //     try {
-    //         const storeID = await this.StoreRepository.find({
-    //             relations: true,
-    //             where: {
-    //                 user: {
-    //                     id: userID
-    //                 }
-    //             }
-    //         })
-    //         if (!storeID) {
-    //             return t
-    //         }
-    //     }
-    // }
+  searchProduct = async (name,storeId) => {
+      return await this.ProductRepository.find({
+          where: {
+              name: Like (`${name}%`),
+              store: {
+                  id: storeId
+              }
+          },
+          relations: {
+              category: true
+          }
+      })
+  }
 
     showAllStoreInformation = async (storeID) => {
         const storeInformation = await this.StoreService.showStoreInformation(storeID);
@@ -42,15 +40,6 @@ class SellerService {
     updateStoreInformation = async (storeID) => {
 
     }
-    //
-    // findStore = async (userID) => {
-    //     let foundStore = await this.storeRepository.find({
-    //         where: {
-    //             id: userID
-    //         }
-    //     })
-    //     return foundStore;
-    // }
 
     addImage = async (productId, images) => {
         for await (const image of images) {

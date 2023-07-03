@@ -13,7 +13,6 @@ class StoreController {
     }
 
     getStoreInformation = async (req: Request, res: Response) => {
-        console.log("vao getStoreInformation ")
         try {
             let userID = req['decode'].id;
             const user = await adminService.searchOneUserByID(userID)

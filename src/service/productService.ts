@@ -21,6 +21,22 @@ class ProductService {
             console.log(error);
         }
     }
+    getAllProductByStoreId = async (storeId) => {
+        try {
+            return await this.ProductRepository.find({
+                relations: [
+                    'store','category'
+                ],
+                where: {
+                    store: {
+                        id: storeId
+                    }
+                }
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     getMainProduct = async (page,page_size) => {
         let start = (page -1) * page_size;

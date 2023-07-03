@@ -34,7 +34,7 @@ class StaffService {
                     role: "staff"
                 }
             })
-                return foundStaff;
+            return foundStaff;
         } catch (error) {
             console.log(error + ' at staffCheck in staffService');
         }
@@ -78,8 +78,8 @@ class StaffService {
     }
 
     checkStaff = async (staff) => {
-        let username = await  this.UserRepository.find({ where: { username: staff.username }});
-        let email = await this.UserRepository.find({ where: { email: staff.email }});
+        let username = await this.UserRepository.find({where: {username: staff.username}});
+        let email = await this.UserRepository.find({where: {email: staff.email}});
 
         return (username[0] ? "This username has already existed" : (email[0] ? "This email has already existed" : null));
     }
@@ -92,44 +92,48 @@ class StaffService {
         return savedUser;
     }
 
-    paginationStaff =  async (page,page_size) => {
-         let start = (page -1) * page_size;
-         let end = start + parseInt(page_size)
-        let staffs =  await this.getStaffs()
-        let paginationStaff = staffs.slice(start,end)
+    paginationStaff = async (page, page_size) => {
+        let start = (page - 1) * page_size;
+        let end = start + parseInt(page_size)
+        let staffs = await this.getStaffs()
+        let paginationStaff = staffs.slice(start, end)
         return {
-             total: staffs.length,
+            total: staffs.length,
             paginationStaff: paginationStaff
         }
     }
 
     deleteStaff = async (idStaff) => {
-        if(idStaff){
-            await this.UserRepository.delete({id: idStaff})
-        }else {
+        if (idStaff) {
+            await this.UserRepository.delete({id: idStaff}).then((data) => {
+                console.log(data)
+            }).catch((err) => {
+                console.log(err)
+            })
+        } else {
             return "Staff not exits"
         }
 
     }
-    staffUpdateById = async (id,staff) => {
+    staffUpdateById = async (id, staff) => {
         let newPassword = await bcrypt.hash(staff.password, 10)
+        staff.password = newPassword;
         await this.UserRepository
             .createQueryBuilder()
             .update({
                 username: staff.username,
-                password: newPassword,
+                password: staff.password,
                 email: staff.email,
                 address: staff.address,
                 age: staff.age,
                 image: staff.image,
-                name:staff.name,
-                phoneNumber:staff.phoneNumber,
+                name: staff.name,
+                phoneNumber: staff.phoneNumber,
                 salary: staff.salary,
-                role: staff
+                role: 'staff'
             })
-            .where({id:id})
+            .where({id: id})
             .execute()
-        return id
     }
     searchStaffById = async (idStaff) => {
         let staff = await this.UserRepository.find({
