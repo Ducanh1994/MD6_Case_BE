@@ -112,6 +112,24 @@ class StoreController {
             })
         }
     }
+    showAllStore = async (req:Request,res:Response) =>{
+        try {
+            let store = await this.StoreService.showStore()
+            console.log(store)
+            res.status(200).json({
+                message: "oke",
+                success: true,
+                data: store
+            })
+
+        } catch (error) {
+            res.status(500).json({
+                success :false,
+                error : error,
+                message: "error at showAllStore"
+            })
+        }
+    }
 
     searchStore = async (req: Request, res: Response) => {
         try {

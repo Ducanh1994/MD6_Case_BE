@@ -163,6 +163,11 @@ class StoreService {
             console.log(error + ' at searchStoreByID in storeService');
         }
     }
+    showStore = async () => {
+        let store = await this.StoreRepository.find()
+        let newStore = store.slice(0,4)
+        return newStore
+    }
 
     searchStore = async (keyWord) => {
         try {

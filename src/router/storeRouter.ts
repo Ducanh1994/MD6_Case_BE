@@ -18,3 +18,4 @@ storeRouter.get('/shop-product', storeController.shopProduct);
 storeRouter.use(adminAuth);
 storeRouter.get('/searchStore', storeController.searchStore);
 storeRouter.get('/searchStoreActive', storeController.searchStoreActive);
+storeRouter.get('/show-shop', storeController.showAllStore);
