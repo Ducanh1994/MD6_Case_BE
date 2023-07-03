@@ -201,6 +201,7 @@ class AdminService {
 
     rejectShop = async (shop) => {
         try {
+            console.log(shop)
             let foundUser = await this.userRepository.find({
                 relations: true,
                 where: {
