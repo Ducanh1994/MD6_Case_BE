@@ -11,7 +11,6 @@ class StaffController {
         this.orderService = orderService;
     }
 
-    // Await check to find all user
     searchAll = async (req: Request, res: Response) => {
         try {
             let userID = req.query.userID;
@@ -22,7 +21,6 @@ class StaffController {
         }
     }
 
-    // Await check to find staff
     searchStaff = async (req: Request, res: Response) => {
         try {
             let userID = req.query.userID;
@@ -53,7 +51,6 @@ class StaffController {
         }
     }
 
-    // Await check to find user
     staffSearchUser = async (req: Request, res: Response) => {
         try {
             let userID = req.query.userID;
@@ -64,7 +61,6 @@ class StaffController {
         }
     }
 
-    // Await to update staff's information
     staffUpdateInfo = async (req: Request, res: Response) => {
         try {
             let userID = req['decode'].idUser;

@@ -24,11 +24,6 @@ class StoreController {
         }
     }
 
-
-
-
-
-
     updateStoreInformation = async (req: Request, res: Response) => {
         try {
             let updateShop = req.body
@@ -41,10 +36,6 @@ class StoreController {
             res.status(500).json(error + ' at getStoreInformation in storeController');
         }
     }
-
-
-
-
 
     getStoreType = async (req: Request, res: Response) => {
         try {
@@ -62,9 +53,9 @@ class StoreController {
             let storeDetail = req.body;
             storeDetail.user = user
             let createdShop = await this.StoreService.createStoreDetail(storeDetail);
-            await res.status(201).json(createdShop);
+            res.status(201).json(createdShop);
         } catch (error) {
-            await res.status(500).json(error + ' at createStore in storeController');
+            res.status(500).json(error + ' at createStore in storeController');
         }
     }
 
@@ -72,9 +63,9 @@ class StoreController {
         try {
             let storeID = req.query.storeID;
             let storeList = await this.StoreService.searchStoreByID(storeID);
-            await res.status(202).json(storeList);
+            res.status(202).json(storeList);
         } catch (error) {
-            await res.status(500).json(error + ' at searchStoreWithID in storeController');
+            res.status(500).json(error + ' at searchStoreWithID in storeController');
         }
     }
 
@@ -83,9 +74,9 @@ class StoreController {
             let userID = req['decode'].id;
             let storeDetail = req.body;
             let editStatus = await StoreService.editStoreDetail(userID, storeDetail);
-            await res.status(202).json(editStatus);
+            res.status(202).json(editStatus);
         } catch (error) {
-            await res.status(500).json(error + ' at editStore in storeController');
+            res.status(500).json(error + ' at editStore in storeController');
         }
     }
 
@@ -115,7 +106,6 @@ class StoreController {
     showAllStore = async (req:Request,res:Response) =>{
         try {
             let store = await this.StoreService.showStore()
-            console.log(store)
             res.status(200).json({
                 message: "oke",
                 success: true,
@@ -134,18 +124,18 @@ class StoreController {
     searchStore = async (req: Request, res: Response) => {
         try {
             let storeFound = await this.StoreService.searchStore(req.query.name);
-            await res.status(202).json(storeFound);
+            res.status(202).json(storeFound);
         } catch (error) {
-            await res.status(500).json(error + ' at searchAccount in adminController');
+            res.status(500).json(error + ' at searchAccount in adminController');
         }
     }
 
     searchStoreActive = async (req: Request, res: Response) => {
         try {
             let storeFound = await this.StoreService.searchStoreActive(req.query.name);
-            await res.status(202).json(storeFound);
+            res.status(202).json(storeFound);
         } catch (error) {
-            await res.status(500).json(error + ' at searchAccount in adminController');
+            res.status(500).json(error + ' at searchAccount in adminController');
         }
     }
 }

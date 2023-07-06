@@ -19,43 +19,40 @@ class AdminController {
         try {
             let userCheck = await this.adminService.checkUser(req.body);
             if (userCheck.length !== 0) {
-                await res.status(406).json('The username already existed!');
+                res.status(406).json('The username already existed!');
             } else {
                 await this.adminService.createStaff(req.body);
-                await res.status(201).json('Create new user successfully!');
+                res.status(201).json('Create new user successfully!');
             }
         } catch (error) {
-            await res.status(500).json(error + ' at createAccount in adminController');
+                res.status(500).json(error + ' at createAccount in adminController');
         }
     }
 
-    // Await Update For Display All User's Detail
-    // Await Response For Found Entity
     searchAccount = async (req: Request, res: Response) => {
         try {
             let userFound = await this.adminService.searchUser(req.query);
-            await res.status(202).json(userFound);
+            res.status(202).json(userFound);
         } catch (error) {
-            await res.status(500).json(error + ' at searchAccount in adminController');
+            res.status(500).json(error + ' at searchAccount in adminController');
         }
     }
 
     enablingShopAccount = async (req: Request, res: Response) => {
         try {
             let shopStatus = await this.adminService.enablingShop(req.body);
-            await res.status(201).json(shopStatus);
+            res.status(201).json(shopStatus);
         } catch (error) {
-            await res.status(500).json(error + ' at enablingShopAccount in adminController');
+            res.status(500).json(error + ' at enablingShopAccount in adminController');
         }
     }
 
     showAllAccount = async (req: Request, res: Response) => {
         try {
             let allAccount = await this.adminService.showUser();
-            await res.status(202).json(allAccount);
+            res.status(202).json(allAccount);
         } catch (error) {
-            await res.status(500).json(
-                error + ' at showAllAccount in adminController');
+            res.status(500).json(error + ' at showAllAccount in adminController');
         }
     }
 
@@ -80,7 +77,6 @@ class AdminController {
 
     addStaff = async (req: Request, res: Response) => {
         let staff = req.body;
-        console.log(staff)
         try {
             let message = await this.staffService.checkStaff(staff);
             if(!message){
@@ -229,9 +225,9 @@ class AdminController {
     rejectShopAccount = async (req: Request, res: Response) => {
         try {
             let shopStatus = await this.adminService.rejectShop(req.body);
-            await res.status(201).json(shopStatus);
+            res.status(201).json(shopStatus);
         } catch (error) {
-            await res.status(500).json(error + ' at ejectShopAccount in adminController');
+            res.status(500).json(error + ' at ejectShopAccount in adminController');
         }
     }
 }

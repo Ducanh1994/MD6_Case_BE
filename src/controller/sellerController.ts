@@ -12,10 +12,6 @@ class SellerController {
         this.SellerService = SellerService;
     }
 
-    // enableShop = async (req: Request, res: Response) => {
-    //
-    // }
-
     createProduct = async (req: Request, res: Response)=> {
         try {
             const userID = req['decode'].id;
@@ -48,7 +44,6 @@ class SellerController {
     editProduct = async (req: Request, res: Response) => {
         try {
             let productId = req.params.id;
-            console.log(productId)
             let userID = req["decode"].id;
             let listImages = req.body.images;
             let updateProduct = req.body.updateProduct;
@@ -63,12 +58,6 @@ class SellerController {
             return res.status(500).json({error: "Internal Server Error"});
         }
     }
-
-    // findStore = async (req: Request, res: Response) => {
-    //     let userID = req.params.id;
-    //     let reply = await sellerService.findStoreByID(userID)
-    //     await res.status(201).json(reply);
-    // }
 }
 
 export default new SellerController();

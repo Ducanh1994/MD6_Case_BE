@@ -11,9 +11,9 @@ class CategoryController{
     getCategory = async (req: Request, res: Response) => {
         try {
             let categoryList = await this.categoryService.getCategoryList();
-            await res.status(202).json(categoryList);
+            res.status(202).json(categoryList);
         } catch (error) {
-            await res.status(500).json(error + ' at getCategory in categoryController');
+            res.status(500).json(error + ' at getCategory in categoryController');
         }
     }
 
@@ -21,9 +21,9 @@ class CategoryController{
         try {
             let categoryID = req.query.categoryID;
             let categoryStatus = await this.categoryService.searchCategoryByID(categoryID);
-            await res.status(202).json(categoryStatus);
+            res.status(202).json(categoryStatus);
         } catch (error) {
-            await res.status(500).json(error + ' at searchCategoryWithID in categoryController');
+            res.status(500).json(error + ' at searchCategoryWithID in categoryController');
         }
     }
 
