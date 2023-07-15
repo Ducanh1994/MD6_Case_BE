@@ -20,10 +20,10 @@ class UserController {
             await userService.createUser(req.body).then((user)=>{
                 orderService.createNewOrder(user);
             });
-            return res.status(201).json('Account created successfully');
+            res.status(201).json('Account created successfully');
         } catch (err) {
             console.log("Lỗi server:", err);
-            return res.status(500).json(err);
+            res.status(500).json(err);
         }
     };
 
@@ -53,13 +53,11 @@ class UserController {
             updateUser.store = findUser.store;
             updateUser.password = findUser.password;
             await userService.updateAccountService(updateUser);
-            return res.status(201).json("Update account success");
+            res.status(201).json("Update account success");
         } catch (error) {
             res.status(500).json(error + ' at updateAccount in userController');
         }
     }
-
-
 
 }
 

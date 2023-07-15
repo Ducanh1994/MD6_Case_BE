@@ -39,8 +39,6 @@ class orderDetailController {
             const order = await orderService.findOrderByUserId(userId);
             const orderId = order.id;
 
-            // await orderDetailService.changeStatusBill(orderId);
-
             res.status(201).json(await orderDetailService.findOrderDetailPending(userId))
         } catch (error) {
             res.status(500).json(error.message)
@@ -59,8 +57,6 @@ class orderDetailController {
     getOrderDetailSuccess = async (req: Request, res: Response) => {
         try {
             const userId = req['decode'].id;
-            // const order = await orderService.findOrderByUserId(userId);
-            // const orderId = order.id;
             const orderDetails = await orderDetailService.findOrderDetailSuccess(userId)
             res.status(201).json(orderDetails)
         } catch (error) {

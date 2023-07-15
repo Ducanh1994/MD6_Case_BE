@@ -140,7 +140,6 @@ class orderController{
             let userId = req['decode'].id;
             let orderDetailId = req.params.id;
             let {productId} = req.body
-           //Update product quantity
             let orderDetail = await this.orderDetailService.getOrderDetailByIdService(orderDetailId);
             let orderDetailQuantity = orderDetail.quantity;
             let oldProduct = await this.productService.getOneProductById(productId);
@@ -148,17 +147,14 @@ class orderController{
 
             await this.productService.updateProductQuantityService(productId, updateProductQuantity);
 
-            //Update total money of order
             let totalPrice = orderDetail.price * orderDetail.quantity;
             let foundOrder = await this.orderService.getOrderService(userId);
             let totalMoney = foundOrder.totalMoney;
             let updateTotalMoney = totalMoney - totalPrice;
             await this.orderService.updateOrderTotalMoney(foundOrder.id, updateTotalMoney);
 
-            //Delete orderDetail
             await this.orderDetailService.deleteOrderDetailService(orderDetailId);
 
-            //Find and return update order
             let foundUpdatedOrder = await this.orderService.getOrderService(userId);
             res.status(201).json({
                 success : true,
@@ -197,17 +193,6 @@ class orderController{
             )
         }
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }
 export default new orderController()

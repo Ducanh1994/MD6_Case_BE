@@ -52,10 +52,10 @@ class SellerController {
             req.body.store = storeId;
             await SellerService.editProductService(productId, updateProduct);
             await SellerService.editImagesService(productId, listImages);
-            return res.status(201).json("Product created successfully!");
+            res.status(201).json("Product created successfully!");
         } catch (error) {
             console.error(error);
-            return res.status(500).json({error: "Internal Server Error"});
+            res.status(500).json({error: "Internal Server Error"});
         }
     }
 }

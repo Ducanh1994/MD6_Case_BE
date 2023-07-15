@@ -13,7 +13,6 @@ class AdminService {
         this.userRepository = AppDataSource.getRepository(User);
     }
 
-    // Conditional to create new account
     checkUser = async (user) => {
         try {
             let findName = await this.userRepository.find({
@@ -32,7 +31,6 @@ class AdminService {
         }
     }
 
-    // Admin create new account
     createStaff = async (user) => {
         try {
             user.password = await bcrypt.hash(user.password, 10);
@@ -43,9 +41,6 @@ class AdminService {
         }
     }
 
-    // Display all the user's information
-
-    // Admin search account with the search query provided
     searchUser = async (user) => {
         try {
             let foundAccount = await this.userRepository.find({
