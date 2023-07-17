@@ -13,7 +13,6 @@ class SellerController {
     }
 
     createProduct = async (req: Request, res: Response)=> {
-        try {
             const userID = req['decode'].id;
             const images = req.body.images;
             delete req.body.images;
@@ -23,26 +22,16 @@ class SellerController {
             const product = await SellerService.createProduct(req.body);
             await SellerService.addImage(product.id, images);
             res.status(201).json('Product created successfully!');
-        } catch (error) {
-            console.log(error);
-            res.status(500).json('Internal server error');
-        }
     }
     searchProduct = async (req: Request, res: Response)=> {
-        try {
           const name = req.query.name;
           const storeId = req.query.storeId;
           const products = await sellerService.searchProduct(name,storeId);
           res.status(200).json(products)
-        } catch (error) {
-            console.log(error);
-            res.status(500).json('Internal server error');
-        }
     }
 
 
     editProduct = async (req: Request, res: Response) => {
-        try {
             let productId = req.params.id;
             let userID = req["decode"].id;
             let listImages = req.body.images;
@@ -53,10 +42,6 @@ class SellerController {
             await SellerService.editProductService(productId, updateProduct);
             await SellerService.editImagesService(productId, listImages);
             res.status(201).json("Product created successfully!");
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({error: "Internal Server Error"});
-        }
     }
 }
 

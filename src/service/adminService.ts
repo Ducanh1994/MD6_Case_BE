@@ -14,8 +14,7 @@ class AdminService {
     }
 
     checkUser = async (user) => {
-        try {
-            let findName = await this.userRepository.find({
+            return await this.userRepository.find({
                 where: [
                     {
                         username: user.username
@@ -25,24 +24,15 @@ class AdminService {
                     }
                 ]
             })
-            return findName;
-        } catch (error) {
-            console.log(error + ' at checkUser in adminService');
-        }
     }
 
     createStaff = async (user) => {
-        try {
             user.password = await bcrypt.hash(user.password, 10);
             user.role = 'staff';
             return this.userRepository.save(user);
-        } catch (error) {
-            console.log(error + ' at createUser in adminService');
-        }
     }
 
     searchUser = async (user) => {
-        try {
             let foundAccount = await this.userRepository.find({
                 where: [
                     {
@@ -58,27 +48,22 @@ class AdminService {
             } else {
                 return foundAccount;
             }
-        } catch (error) {
-            console.log(error + 'at searchUser in adminService');
-        }
     }
 
     getShop = async () => {
-        let shops = await this.storeRepository.find({
+        return await this.storeRepository.find({
             where: {
                 status: "Inactive"
             },
         })
-        return shops
     }
 
     getShopActive = async () => {
-        let shops = await this.storeRepository.find({
+        return await this.storeRepository.find({
             where: {
                 status: "Active"
             },
         })
-        return shops
     }
 
     paginationShop =  async (page,page_size) => {
@@ -103,40 +88,17 @@ class AdminService {
         }
     }
 
-    // searchOneUserByID = async (userID) => {
-    //     try {
-    //         let foundAccount = await this.userRepository.findOne({
-    //             where: {
-    //                 id: userID
-    //             }
-    //         })
-    //         if (!foundAccount) {
-    //             return 'There is no account that exists';
-    //         } else {
-    //             return foundAccount;
-    //         }
-    //     } catch (error) {
-    //         console.log(error + 'at searchUser in adminService');
-    //     }
-    // }
-
-
     searchOneUserByID = async (userID) => {
-        try {
             let user = await this.userRepository.findOne({ relations: ['store', 'store.storeType'], where: { id: userID } });
             if (!user) {
                 return 'There is no account that exists';
             } else {
                 return user;
             }
-        } catch (error) {
-            console.log(error + 'at searchUser in adminService');
-        }
     }
 
 
     enablingShop = async (shop) => {
-        try {
             let foundStore = await this.storeRepository.find({
                 relations: true,
                 where: {
@@ -170,14 +132,10 @@ class AdminService {
 
                 return 'The store has been active';
             }
-        } catch (error) {
-            console.log(error + ' at enablingShop in adminService');
-        }
     }
 
 
     showUser = async () => {
-        try {
             let allAccount = await this.userRepository.find({
                 relations: true,
                 where: {
@@ -189,14 +147,9 @@ class AdminService {
             } else {
                 return allAccount;
             }
-        } catch (error) {
-            console.log(error + ' at showUser in adminService');
-        }
     }
 
     rejectShop = async (shop) => {
-        try {
-            console.log(shop)
             let foundUser = await this.userRepository.find({
                 relations: true,
                 where: {
@@ -205,36 +158,26 @@ class AdminService {
                     }
                 }
             })
-            console.log(foundUser)
             foundUser[0].role = "client";
             foundUser[0].store= null;
 
             await this.userRepository.save({
                 ...foundUser[0]
             })
-
             let foundStore = await this.storeRepository.find({
                 relations: true,
                 where: {
                     id: shop.storeID
                 }
             })
-            console.log(foundStore)
-
-            // foundStore[0].status = "Active"
             if (!foundStore) {
                 return 'Store not found';
             } else {
                 await this.storeRepository.delete({
                     id: shop.storeID
                 })
-
-
                 return 'The store has been reject';
             }
-        } catch (error) {
-            console.log(error + ' at rejectShop in adminService');
-        }
     }
 }
 

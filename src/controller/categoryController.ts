@@ -9,22 +9,14 @@ class CategoryController{
     }
 
     getCategory = async (req: Request, res: Response) => {
-        try {
             let categoryList = await this.categoryService.getCategoryList();
             res.status(202).json(categoryList);
-        } catch (error) {
-            res.status(500).json(error + ' at getCategory in categoryController');
-        }
     }
 
     searchCategoryWithID = async (req: Request, res: Response) => {
-        try {
             let categoryID = req.query.categoryID;
             let categoryStatus = await this.categoryService.searchCategoryByID(categoryID);
             res.status(202).json(categoryStatus);
-        } catch (error) {
-            res.status(500).json(error + ' at searchCategoryWithID in categoryController');
-        }
     }
 
 }

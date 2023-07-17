@@ -9,7 +9,6 @@ class UserController {
     }
 
     register = async (req: Request, res: Response) => {
-        try {
             const check = await userService.checkUserSingup(req.body);
             if (check === "Username already exists") {
                 return res.status(201).json("Username already exists");
@@ -21,11 +20,7 @@ class UserController {
                 orderService.createNewOrder(user);
             });
             res.status(201).json('Account created successfully');
-        } catch (err) {
-            console.log("Lỗi server:", err);
-            res.status(500).json(err);
-        }
-    };
+    }
 
     login = async (req: Request, res: Response) => {
         let resultCheck = await userService.checkUser(req.body);
@@ -34,19 +29,13 @@ class UserController {
 
 
     showAllStaff = async (req: Request, res: Response) => {
-        try {
             let staffs = await userService.findAllStaff()
             res.status(200).json(staffs)
-        } catch (error) {
-
-            res.status(500).json(error)
-        }
     }
 
 
 
     updateAccount = async (req: Request, res: Response) => {
-        try {
             let userID = req['decode'].id;
             const updateUser = req.body
             const findUser = await adminService.searchOneUserByID(userID);
@@ -54,11 +43,7 @@ class UserController {
             updateUser.password = findUser.password;
             await userService.updateAccountService(updateUser);
             res.status(201).json("Update account success");
-        } catch (error) {
-            res.status(500).json(error + ' at updateAccount in userController');
-        }
     }
-
 }
 
 export default new UserController();
