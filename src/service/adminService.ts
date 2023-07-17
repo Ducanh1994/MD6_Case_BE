@@ -2,11 +2,11 @@ import {AppDataSource} from "../data-source";
 import {Store} from "../entity/store";
 import {User} from "../entity/user";
 import bcrypt from 'bcrypt'
-import {Like} from 'typeorm'
+import {Like, Repository} from 'typeorm'
 
 class AdminService {
-    private storeRepository;
-    private userRepository;
+    private storeRepository:Repository<Store>;
+    private userRepository:Repository<User>;
 
     constructor() {
         this.storeRepository = AppDataSource.getRepository(Store);
@@ -89,18 +89,14 @@ class AdminService {
     }
 
     searchOneUserByID = async (userID) => {
-            let user = await this.userRepository.findOne({ relations: ['store', 'store.storeType'], where: { id: userID } });
-            if (!user) {
-                return 'There is no account that exists';
-            } else {
-                return user;
-            }
+           return await this.userRepository.findOne({
+               relations: ['store', 'store.storeType'],
+               where: { id: userID } });
     }
 
 
     enablingShop = async (shop) => {
             let foundStore = await this.storeRepository.find({
-                relations: true,
                 where: {
                         id: shop.storeID
                 }
@@ -116,11 +112,8 @@ class AdminService {
                 })
 
                 let foundUser = await this.userRepository.find({
-                    relations: true,
                     where: {
-                        store: {
-                            id: shop.storeID
-                        }
+                        store: shop.id
                     }
                 })
                 foundUser[0].role = "seller"
@@ -137,7 +130,6 @@ class AdminService {
 
     showUser = async () => {
             let allAccount = await this.userRepository.find({
-                relations: true,
                 where: {
                     role: "staff"
                 }
@@ -149,13 +141,10 @@ class AdminService {
             }
     }
 
-    rejectShop = async (shop) => {
+    rejectShop = async (store) => {
             let foundUser = await this.userRepository.find({
-                relations: true,
                 where: {
-                    store: {
-                        id: shop.storeID
-                    }
+                  store: store.id
                 }
             })
             foundUser[0].role = "client";
@@ -165,16 +154,15 @@ class AdminService {
                 ...foundUser[0]
             })
             let foundStore = await this.storeRepository.find({
-                relations: true,
                 where: {
-                    id: shop.storeID
+                    id: store.storeID
                 }
             })
             if (!foundStore) {
                 return 'Store not found';
             } else {
                 await this.storeRepository.delete({
-                    id: shop.storeID
+                    id: store.storeID
                 })
                 return 'The store has been reject';
             }
