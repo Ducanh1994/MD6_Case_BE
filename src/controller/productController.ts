@@ -32,9 +32,9 @@ class ProductController {
     }
 
     searchProductWithID = async (req: Request, res: Response) => {
-            let productID = req.params.id;
-            let product = await ProductService.searchProductByID(productID);
-            let images = await ImageService.getSubImagesByProductId(productID);
+            let productId = req.params.id;
+            let product = await ProductService.searchProductByID(productId);
+            let images = await ImageService.getSubImagesByProductId(productId);
             product.images = images
             res.status(202).json(product);
     }

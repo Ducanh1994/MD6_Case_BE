@@ -1,29 +1,25 @@
 import {AppDataSource} from "../data-source";
 import {Category} from "../entity/category";
+import {Repository} from "typeorm";
 
 class CategoryService {
-    private CategoryRepository;
+    private categoryRepository:Repository<Category>;
 
     constructor() {
-        this.CategoryRepository = AppDataSource.getRepository(Category);
+        this.categoryRepository = AppDataSource.getRepository(Category);
     }
 
     getCategoryList = async () => {
-        try {
-            let findCategory = await this.CategoryRepository.find();
+            let findCategory = await this.categoryRepository.find();
             if (!findCategory) {
                 return 'There is no category';
             } else {
                 return findCategory;
             }
-        } catch (error) {
-            console.log(error + ' at getCategoryList in categoryService');
-        }
     }
 
     searchCategoryByID = async (categoryID) => {
-        try {
-            let findCategory = await this.CategoryRepository.find({
+            let findCategory = await this.categoryRepository.find({
                 where: {
                     id: categoryID
                 }
@@ -33,9 +29,6 @@ class CategoryService {
             } else {
                 return findCategory;
             }
-        } catch (error) {
-            console.log(error + ' at searchCategoryByID in categoryService');
-        }
     }
 }
 

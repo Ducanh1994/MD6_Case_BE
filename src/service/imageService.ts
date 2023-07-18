@@ -1,30 +1,23 @@
 import {AppDataSource} from "../data-source";
 import {Image} from "../entity/image";
+import {Repository} from "typeorm";
 
 class StaffService {
-    private ImageRepository;
+    private imageRepository:Repository<Image>;
 
     constructor() {
-        this.ImageRepository = AppDataSource.getRepository(Image);
+        this.imageRepository = AppDataSource.getRepository(Image);
     }
 
-    getSubImagesByProductId = async (productID) => {
-        try {
-            const images = await this.ImageRepository.find({
+    getSubImagesByProductId = async (productId) => {
+            const images = await this.imageRepository.find({
                 where: {
-                    product: {
-                        id: productID
-                    }
+                    product: productId
                 }
             });
             const urls = images.map(image => image.url);
             return urls;
-        } catch (error) {
-            console.log('No sub image found');
-        }
     }
-
-
 }
 
 export default new StaffService();

@@ -2,10 +2,11 @@ import {AppDataSource} from "../data-source";
 import {OrderDetail} from "../entity/orderDetail";
 import orderService from "./orderService";
 import userService from "./userService";
+import {Repository} from "typeorm";
 
 
 class orderDetailService {
-    private orderDetailRepository;
+    private orderDetailRepository:Repository<OrderDetail>;
 
     constructor() {
         this.orderDetailRepository = AppDataSource.getRepository(OrderDetail);
@@ -14,12 +15,8 @@ class orderDetailService {
     addOrderDetail = async (orderId, product) => {
         let existOrderDetails = await this.orderDetailRepository.find({
             where: {
-                order: {
-                    id: orderId
-                },
-                product: {
-                    id: product.id
-                }
+                order: orderId,
+                product: product.id
             },
         });
 
@@ -50,19 +47,27 @@ class orderDetailService {
             await this.orderDetailRepository.save(newOrderDetail);
         }
     }
+    // findOrderDetails = async (orderId) => {
+    //     return await this.orderDetailRepository.find({
+    //         relations: [
+    //             'order', 'product', 'product.category'
+    //         ],
+    //         where: {
+    //             order:  orderId
+    //         },
+    //
+    //     })
+    // }
+
     findOrderDetails = async (orderId) => {
         return await this.orderDetailRepository.find({
-            relations: [
-                'order', 'product', 'product.category'
-            ],
-            where: {
-                order: {
-                    id: orderId,
-                    status: "unpaid"
-                },
-            },
+            where:{
+                order: orderId
+            }
         })
     }
+
+
     findOrderDetailStatusTrue = async (orderId) => {
         return await this.orderDetailRepository.find({
             relations: [
