@@ -3,6 +3,7 @@ import {OrderDetail} from "../entity/orderDetail";
 import orderService from "./orderService";
 import userService from "./userService";
 import {Repository} from "typeorm";
+import orderDetailController from "../controller/orderDetailController";
 
 
 class orderDetailService {
@@ -59,14 +60,19 @@ class orderDetailService {
     //     })
     // }
 
-    findOrderDetails = async (orderId) => {
+    findOrderDetails = async (id:number) => {
         return await this.orderDetailRepository.find({
-            where:{
-                order: orderId
+            relations: [
+                'order', 'product', 'product.category'
+            ],
+            where: {
+                order: {
+                    id:id,
+                    status: "unpaid"
+                }
             }
         })
     }
-
 
     findOrderDetailStatusTrue = async (orderId) => {
         return await this.orderDetailRepository.find({
